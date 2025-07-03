@@ -1,12 +1,12 @@
 ---
-import '../styles/docs.css';
-import { ClientRouter } from 'astro:transitions';
-import Header from '../components/Header.jsx';
-import Footer from '../components/Footer.astro';
-import CookieConsent from '../components/CookieConsent.astro';
-import DocsMobileMenuToggle from '../components/DocsMobileMenuToggle.astro';
+import '../styles/docs.css'
+import { ClientRouter } from 'astro:transitions'
+import CookieConsent from '../components/CookieConsent.astro'
+import DocsMobileMenuToggle from '../components/DocsMobileMenuToggle.astro'
+import Footer from '../components/Footer.astro'
+import Header from '../components/Header.jsx'
 
-const { hasSidebar } = Astro.locals.starlightRoute;
+const { hasSidebar } = Astro.locals.starlightRoute
 ---
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;700&display=swap" rel="stylesheet" />
 <div class="font-[Onest] bg-xahau-background min-h-screen flex flex-col">

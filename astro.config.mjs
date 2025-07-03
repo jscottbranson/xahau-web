@@ -1,15 +1,16 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
-import react from '@astrojs/react';
-import mdx from '@astrojs/mdx';
-import tailwindcss from '@tailwindcss/vite';
-import starlight from '@astrojs/starlight';
+
+import mdx from '@astrojs/mdx'
+import react from '@astrojs/react'
+import starlight from '@astrojs/starlight'
+import tailwindcss from '@tailwindcss/vite'
+import { defineConfig } from 'astro/config'
 import starlightOpenAPI, { openAPISidebarGroups } from 'starlight-openapi'
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [
-    react(), 
+    react(),
     starlight({
       title: 'Xahau Docs',
       description: 'Documentation for the Xahau blockchain',
@@ -31,21 +32,18 @@ export default defineConfig({
       plugins: [
         starlightOpenAPI([
           {
-           base: 'docs/data-apis/data-api',
-           schema: './src/schemas/dataapi.json',
-           sidebar: {
-            label: 'Xahau Data API'
-           }
+            base: 'docs/data-apis/data-api',
+            schema: './src/schemas/dataapi.json',
+            sidebar: {
+              label: 'Xahau Data API',
+            },
           },
         ]),
       ],
       sidebar: [
         {
-          label: 'Get started', 
-          items: [
-            'docs',
-            'docs/what-is-different'
-          ],
+          label: 'Get started',
+          items: ['docs', 'docs/what-is-different'],
         },
         {
           label: 'Features',
@@ -55,29 +53,29 @@ export default defineConfig({
             {
               label: 'Transaction Signing',
               autogenerate: { directory: 'docs/features/transaction-signing' },
-              collapsed: true
+              collapsed: true,
             },
             {
               label: 'Developer Tooling',
               autogenerate: { directory: 'docs/features/developer-tooling' },
-              collapsed: true
+              collapsed: true,
             },
             {
               label: 'HTTP / WebSocket APIs',
               autogenerate: { directory: 'docs/features/http-websocket-apis' },
-              collapsed: true
+              collapsed: true,
             },
             {
               label: 'Network Features',
               autogenerate: { directory: 'docs/features/network-features' },
-              collapsed: true
+              collapsed: true,
             },
             'docs/features/faucet-and-explorer',
             'docs/features/balance-adjustments',
             'docs/features/governance-game',
             'docs/features/burn-2-mint',
             'docs/features/versioning-process',
-          ]
+          ],
         },
         {
           label: 'Protocol Reference',
@@ -89,22 +87,31 @@ export default defineConfig({
                 'docs/protocol-reference/transactions',
                 {
                   label: 'Transaction Types',
-                  autogenerate: { directory: 'docs/protocol-reference/transactions/transaction-types' },
+                  autogenerate: {
+                    directory:
+                      'docs/protocol-reference/transactions/transaction-types',
+                  },
                   collapsed: true,
                 },
                 {
                   label: 'Pseudo Transaction Types',
-                  autogenerate: { directory: 'docs/protocol-reference/transactions/pseudo-transaction-types' },
+                  autogenerate: {
+                    directory:
+                      'docs/protocol-reference/transactions/pseudo-transaction-types',
+                  },
                   collapsed: true,
                 },
                 {
                   label: 'Transaction Results',
-                  autogenerate: { directory: 'docs/protocol-reference/transactions/transaction-results' },
+                  autogenerate: {
+                    directory:
+                      'docs/protocol-reference/transactions/transaction-results',
+                  },
                   collapsed: true,
                 },
                 'docs/protocol-reference/transactions/transaction-common-fields',
                 'docs/protocol-reference/transactions/transaction-metadata',
-              ]
+              ],
             },
             {
               label: 'Ledger Data',
@@ -113,12 +120,15 @@ export default defineConfig({
                 'docs/protocol-reference/ledger-data',
                 {
                   label: 'Ledger Objects Types',
-                  autogenerate: { directory: 'docs/protocol-reference/ledger-data/ledger-objects-types' },
+                  autogenerate: {
+                    directory:
+                      'docs/protocol-reference/ledger-data/ledger-objects-types',
+                  },
                   collapsed: true,
                 },
                 'docs/protocol-reference/ledger-data/ledger-header',
                 'docs/protocol-reference/ledger-data/ledger-object-ids',
-              ]
+              ],
             },
             {
               label: 'Data Types',
@@ -127,10 +137,10 @@ export default defineConfig({
                 'docs/protocol-reference/data-types',
                 'docs/protocol-reference/data-types/currency-formats',
                 'docs/protocol-reference/data-types/base-58-encodings',
-              ]
+              ],
             },
             'docs/protocol-reference/binary-format',
-          ]
+          ],
         },
         {
           label: 'Hooks',
@@ -161,7 +171,7 @@ export default defineConfig({
                 'docs/hooks/concepts/floating-point-numbers-xfl',
                 'docs/hooks/concepts/emitted-transactions',
                 'docs/hooks/concepts/serialized-objects',
-              ]
+              ],
             },
             {
               label: 'Functions',
@@ -175,7 +185,9 @@ export default defineConfig({
                 {
                   label: 'Developer Defined',
                   collapsed: true,
-                  autogenerate: { directory: 'docs/hooks/functions/developer-defined' },
+                  autogenerate: {
+                    directory: 'docs/hooks/functions/developer-defined',
+                  },
                 },
                 {
                   label: 'Control',
@@ -190,12 +202,16 @@ export default defineConfig({
                 {
                   label: 'Serialization',
                   collapsed: true,
-                  autogenerate: { directory: 'docs/hooks/functions/serialization' },
+                  autogenerate: {
+                    directory: 'docs/hooks/functions/serialization',
+                  },
                 },
                 {
                   label: 'Emitted Transaction',
                   collapsed: true,
-                  autogenerate: { directory: 'docs/hooks/functions/emitted-transaction' },
+                  autogenerate: {
+                    directory: 'docs/hooks/functions/emitted-transaction',
+                  },
                 },
                 {
                   label: 'Float',
@@ -210,7 +226,9 @@ export default defineConfig({
                 {
                   label: 'Hook Context',
                   collapsed: true,
-                  autogenerate: { directory: 'docs/hooks/functions/hook-context' },
+                  autogenerate: {
+                    directory: 'docs/hooks/functions/hook-context',
+                  },
                 },
                 {
                   label: 'Slot',
@@ -223,37 +241,40 @@ export default defineConfig({
                   autogenerate: { directory: 'docs/hooks/functions/state' },
                 },
                 {
-                  label: 'Trace (Debug)', 
+                  label: 'Trace (Debug)',
                   collapsed: true,
-                  autogenerate: { directory: 'docs/hooks/functions/trace-debug' },
+                  autogenerate: {
+                    directory: 'docs/hooks/functions/trace-debug',
+                  },
                 },
                 {
                   label: 'Originating Transaction',
                   collapsed: true,
-                  autogenerate: { directory: 'docs/hooks/functions/originating-transaction' },
+                  autogenerate: {
+                    directory: 'docs/hooks/functions/originating-transaction',
+                  },
                 },
                 {
                   label: 'WebSocket APIs',
                   collapsed: true,
-                  autogenerate: { directory: 'docs/hooks/functions/websocket-apis' },
+                  autogenerate: {
+                    directory: 'docs/hooks/functions/websocket-apis',
+                  },
                 },
-              ]
+              ],
             },
-          ]
+          ],
         },
         {
           label: 'Data APIs',
-          items: [
-            'docs/data-apis',
-            ...openAPISidebarGroups
-          ]
+          items: ['docs/data-apis', ...openAPISidebarGroups],
         },
         {
           label: 'Compliance',
           items: [
             'docs/compliance/security-audit',
             'docs/compliance/responsible-disclosure',
-          ]
+          ],
         },
         {
           label: 'Infrastructure',
@@ -265,7 +286,7 @@ export default defineConfig({
               items: [
                 'docs/infrastructure/running-a-node/running-a-mainnet-node',
                 'docs/infrastructure/running-a-node/running-a-testnet-node',
-              ]
+              ],
             },
             {
               label: 'Building Xahau (Dev)',
@@ -274,16 +295,13 @@ export default defineConfig({
                 'docs/infrastructure/building-xahau',
                 'docs/infrastructure/building-xahau/ubuntu-22-04',
                 'docs/infrastructure/building-xahau/mac-os-13-5-2',
-              ]
-            }
-          ]
+              ],
+            },
+          ],
         },
         {
-          label: 'Resources', 
-          items: [
-            'docs/resources/whitepaper',
-            'docs/resources/media-kit',
-          ],
+          label: 'Resources',
+          items: ['docs/resources/whitepaper', 'docs/resources/media-kit'],
         },
         {
           label: 'Support',
@@ -291,10 +309,10 @@ export default defineConfig({
         },
       ],
     }),
-    mdx()
+    mdx(),
   ],
   vite: {
     plugins: [tailwindcss()],
   },
-    site: 'https://xahau.network/'
-});
+  site: 'https://xahau.network/',
+})
