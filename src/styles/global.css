@@ -17,3 +17,10 @@ footer {
 * {
   -webkit-font-smoothing: antialiased;
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    /* biome-ignore lint: noUnknownProperty */
+    navigation: auto;
+  }
+}

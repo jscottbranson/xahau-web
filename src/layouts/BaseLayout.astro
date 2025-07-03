@@ -37,7 +37,7 @@ const description = Astro.props.frontmatter?.description
 
   </head>
   <body class="font-[Onest] bg-xahau-background min-h-screen flex flex-col">
-    <Header client:only="react" url={Astro.url} />
+    <Header client:load url={Astro.url} />
     <slot />
     <Footer />
     <CookieConsent />
