@@ -1,5 +1,4 @@
 ---
-import { ClientRouter } from 'astro:transitions'
 import CookieConsent from '../components/CookieConsent.astro'
 import Footer from '../components/Footer.astro'
 import Header from '../components/Header.jsx'
@@ -18,7 +17,6 @@ const description = Astro.props.frontmatter?.description
     <link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml">
     <meta charset="UTF-8" />
     <title>{title}</title>
-    <ClientRouter />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;700&display=swap" rel="stylesheet" />
@@ -39,7 +37,7 @@ const description = Astro.props.frontmatter?.description
 
   </head>
   <body class="font-[Onest] bg-xahau-background min-h-screen flex flex-col">
-    <Header client:only="react" url={Astro.url} />
+    <Header client:load url={Astro.url} />
     <slot />
     <Footer />
     <CookieConsent />
