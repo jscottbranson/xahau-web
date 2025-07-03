@@ -1,0 +1,22 @@
+---
+import Header from '../components/Header.jsx';
+import Footer from '../components/Footer.astro';
+import CookieConsent from '../components/CookieConsent.astro';
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+<html lang="en">
+  <head>
+    <link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml">
+    <meta charset="UTF-8" />
+    <title>{Astro.props.frontmatter?.title ? `Xahau: ${Astro.props.frontmatter?.title}` : 'Xahau'}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="canonical" href={canonicalURL} />
+  </head>
+  <body class="font-[Onest] bg-xahau-background min-h-screen flex flex-col">
+    <Header client:only="react" url={Astro.url} />
+    <slot />
+    <Footer />
+    <CookieConsent />
+  </body>
+</html> 

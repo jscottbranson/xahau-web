@@ -1,0 +1,19 @@
+@theme {
+    --color-xahau-green: #5DE48C;
+    --color-xahau-green-dark: #007b3d;
+    --color-xahau-background: #F7F7F7;
+    --color-xahau-gray: #0F2328;
+    --color-xahau-secondary: #FAD7AE;
+}
+
+footer a:hover {
+    @apply !underline;
+}
+
+footer {
+    z-index: 100;
+}
+
+* {
+	-webkit-font-smoothing: antialiased;
+}
