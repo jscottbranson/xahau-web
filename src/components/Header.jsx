@@ -29,6 +29,13 @@ const docs = [
   { name: 'Whitepaper', href: '/docs/resources/whitepaper' },
 ]
 
+const explorers = [
+  { name: 'XAHSCAN', href: 'https://xahscan.com/' },
+  { name: 'Bithomp Xahau Explorer', href: 'https://xahauexplorer.com/en' },
+  { name: 'XRPLWin Xahau Explorer', href: 'https://xahau.xrplwin.com/' },
+  { name: 'Technical Explorer', href: 'https://explorer.xahau.network/' },
+]
+
 import logo from '../assets/xahau-logo.svg'
 
 export default function Header(props) {
@@ -84,7 +91,21 @@ export default function Header(props) {
               </div>
             </PopoverPanel>
           </Popover>
-          <a href="https://explorer.xahau.network/" target="_blank" className="selected:no-underline no-underline text-base text-black font-regular">Explorer</a>
+          <Popover className="relative">
+            <PopoverButton className="flex p-0 border-none items-center gap-x-1 text-base font-regular text-black bg-transparent">
+              Explorers
+              <ChevronDownIcon aria-hidden="true" className="size-5 flex-none text-black" />
+            </PopoverButton>
+            <PopoverPanel transition className="absolute left-1/2 z-10 mt-3 w-screen max-w-max -translate-x-1/2 overflow-hidden bg-xahau-gray shadow-lg ring-1 ring-gray-900/5 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in">
+              <div className="p-4">
+                {explorers.map((item) => (
+                  <div key={item.name} className="group relative flex items-center gap-x-6 p-2 text-sm/6">
+                      <a href={item.href} target="_blank" className="no-underline block font-regular text-white">{item.name}</a>
+                  </div>
+                ))}
+              </div>
+            </PopoverPanel>
+          </Popover>
         </PopoverGroup>
       </nav>
       <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
@@ -152,7 +173,25 @@ export default function Header(props) {
                     ))}
                   </DisclosurePanel>
                 </Disclosure>
-                <a href="https://explorer.xahau.network/" target="_blank" className="selected:no-underline no-underline -mx-3 block rounded-lg px-3 py-2 text-base/7 text-base/7 hover:bg-gray-50 text-black font-regular">Explorer</a>
+                <Disclosure as="div" className="-mx-3">
+                  <DisclosureButton className="border-none bg-transparent group flex w-full items-center justify-between rounded-lg py-2 pr-3.5 pl-3 text-base/7 font-regular text-black hover:bg-gray-50">
+                    Explorers
+                    <ChevronDownIcon aria-hidden="true" className="size-5 flex-none group-data-open:rotate-180" />
+                  </DisclosureButton>
+                  <DisclosurePanel className="mt-2 space-y-2">
+                    {[...explorers].map((item) => (
+                      <DisclosureButton
+                        key={item.name}
+                        as="a"
+                        href={item.href}
+                        target="_blank"
+                        className="no-underline block rounded-lg py-2 pr-3 pl-6 text-sm/7 font-regular text-black hover:bg-gray-50"
+                      >
+                        {item.name}
+                      </DisclosureButton>
+                    ))}
+                  </DisclosurePanel>
+                </Disclosure>
               </div>
             </div>
           </div>
