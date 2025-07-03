@@ -62,46 +62,52 @@ export default function Header(props) {
           <a href="/ecosystem" className={`selected:no-underline no-underline text-base text-black ${props.url.pathname.slice(1).split('/')[0] == 'ecosystem' ? 'font-bold' : 'font-regular'}`}>Ecosystem</a>
           <a href="/roadmap" className={`selected:no-underline no-underline text-base text-black ${props.url.pathname.slice(1).split('/')[0] == 'roadmap' ? 'font-bold' : 'font-regular'}`}>Roadmap</a>
           <Popover className="relative">
-            <PopoverButton className={`selected:no-underline no-underline p-0 border-none text-base text-black flex items-center gap-x-1 bg-transparent ${props.url.pathname.slice(1).split('/')[0] == 'docs' ? 'font-bold' : 'font-regular'}`}>
+            <PopoverButton className={`selected:no-underline no-underline p-0 border-none text-base text-black flex items-center gap-x-1 bg-transparent hover:cursor-pointer ${props.url.pathname.slice(1).split('/')[0] == 'docs' ? 'font-bold' : 'font-regular'}`}>
               Documentation
               <ChevronDownIcon aria-hidden="true" className="size-5 flex-none text-black" />
             </PopoverButton>
             <PopoverPanel transition className="absolute left-1/2 z-10 mt-3 w-screen max-w-max -translate-x-1/2 overflow-hidden bg-xahau-gray shadow-lg ring-1 ring-gray-900/5 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in">
               <div className="p-4">
                 {docs.map((item) => (
-                  <div key={item.name} className="group relative flex items-center gap-x-6 p-2 text-sm/6">
-                      <a href={item.href} className="no-underline block font-regular text-white">{item.name}</a>
-                  </div>
+                  <a href={item.href} className="no-underline block font-regular text-white">
+                    <div key={item.name} className="group relative flex items-center gap-x-6 p-2 text-sm/6">
+                      {item.name}
+                    </div>
+                  </a>
                 ))}
               </div>
             </PopoverPanel>
           </Popover>
           <Popover className="relative">
-            <PopoverButton className="flex p-0 border-none items-center gap-x-1 text-base font-regular text-black bg-transparent">
+            <PopoverButton className="flex p-0 border-none items-center gap-x-1 text-base font-regular text-black bg-transparent hover:cursor-pointer ">
               Connect
               <ChevronDownIcon aria-hidden="true" className="size-5 flex-none text-black" />
             </PopoverButton>
             <PopoverPanel transition className="absolute left-1/2 z-10 mt-3 w-screen max-w-max -translate-x-1/2 overflow-hidden bg-xahau-gray shadow-lg ring-1 ring-gray-900/5 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in">
               <div className="p-4">
                 {socials.map((item) => (
-                  <div key={item.name} className="group relative flex items-center gap-x-6 p-2 text-sm/6">
-                      <a href={item.href} target="_blank" className="no-underline block font-regular text-white">{item.name}</a>
-                  </div>
+                  <a href={item.href} target="_blank" className="no-underline block font-regular text-white">
+                    <div key={item.name} className="group relative flex items-center gap-x-6 p-2 text-sm/6">
+                      {item.name}
+                    </div>
+                  </a>
                 ))}
               </div>
             </PopoverPanel>
           </Popover>
           <Popover className="relative">
-            <PopoverButton className="flex p-0 border-none items-center gap-x-1 text-base font-regular text-black bg-transparent">
+            <PopoverButton className="flex p-0 border-none items-center gap-x-1 text-base font-regular text-black bg-transparent hover:cursor-pointer">
               Explorers
               <ChevronDownIcon aria-hidden="true" className="size-5 flex-none text-black" />
             </PopoverButton>
             <PopoverPanel transition className="absolute left-1/2 z-10 mt-3 w-screen max-w-max -translate-x-1/2 overflow-hidden bg-xahau-gray shadow-lg ring-1 ring-gray-900/5 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in">
               <div className="p-4">
                 {explorers.map((item) => (
-                  <div key={item.name} className="group relative flex items-center gap-x-6 p-2 text-sm/6">
-                      <a href={item.href} target="_blank" className="no-underline block font-regular text-white">{item.name}</a>
-                  </div>
+                  <a href={item.href} target="_blank" className="no-underline block font-regular text-white">
+                    <div key={item.name} className="group relative flex items-center gap-x-6 p-2 text-sm/6">
+                      {item.name}
+                    </div>
+                  </a>
                 ))}
               </div>
             </PopoverPanel>
