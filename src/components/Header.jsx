@@ -94,7 +94,7 @@ export default function Header(props) {
           </a>
           <Popover className="relative">
             <PopoverButton
-              className={`selected:no-underline no-underline p-0 border-none text-base text-black flex items-center gap-x-1 bg-transparent ${props.url.pathname.slice(1).split('/')[0] === 'docs' ? 'font-bold' : 'font-regular'}`}
+              className={`selected:no-underline no-underline p-0 border-none text-base text-black flex items-center gap-x-1 bg-transparent hover:cursor-pointer ${props.url.pathname.slice(1).split('/')[0] === 'docs' ? 'font-bold' : 'font-regular'}`}
             >
               Documentation
               <ChevronDownIcon
@@ -108,23 +108,24 @@ export default function Header(props) {
             >
               <div className="p-4">
                 {docs.map((item) => (
-                  <div
+                  <a
                     key={item.name}
-                    className="group relative flex items-center gap-x-6 p-2 text-sm/6"
+                    href={item.href}
+                    className="no-underline block font-regular text-white"
                   >
-                    <a
-                      href={item.href}
-                      className="no-underline block font-regular text-white"
+                    <div
+                      key={item.name}
+                      className="group relative flex items-center gap-x-6 p-2 text-sm/6"
                     >
                       {item.name}
-                    </a>
-                  </div>
+                    </div>
+                  </a>
                 ))}
               </div>
             </PopoverPanel>
           </Popover>
           <Popover className="relative">
-            <PopoverButton className="flex p-0 border-none items-center gap-x-1 text-base font-regular text-black bg-transparent">
+            <PopoverButton className="flex p-0 border-none items-center gap-x-1 text-base font-regular text-black bg-transparent hover:cursor-pointer ">
               Connect
               <ChevronDownIcon
                 aria-hidden="true"
@@ -137,24 +138,25 @@ export default function Header(props) {
             >
               <div className="p-4">
                 {socials.map((item) => (
-                  <div
+                  <a
                     key={item.name}
-                    className="group relative flex items-center gap-x-6 p-2 text-sm/6"
+                    href={item.href}
+                    target="_blank"
+                    className="no-underline block font-regular text-white"
                   >
-                    <a
-                      href={item.href}
-                      target="_blank"
-                      className="no-underline block font-regular text-white"
+                    <div
+                      key={item.name}
+                      className="group relative flex items-center gap-x-6 p-2 text-sm/6"
                     >
                       {item.name}
-                    </a>
-                  </div>
+                    </div>
+                  </a>
                 ))}
               </div>
             </PopoverPanel>
           </Popover>
           <Popover className="relative">
-            <PopoverButton className="flex p-0 border-none items-center gap-x-1 text-base font-regular text-black bg-transparent">
+            <PopoverButton className="flex p-0 border-none items-center gap-x-1 text-base font-regular text-black bg-transparent hover:cursor-pointer">
               Explorers
               <ChevronDownIcon
                 aria-hidden="true"
@@ -167,18 +169,19 @@ export default function Header(props) {
             >
               <div className="p-4">
                 {explorers.map((item) => (
-                  <div
+                  <a
                     key={item.name}
-                    className="group relative flex items-center gap-x-6 p-2 text-sm/6"
+                    href={item.href}
+                    target="_blank"
+                    className="no-underline block font-regular text-white"
                   >
-                    <a
-                      href={item.href}
-                      target="_blank"
-                      className="no-underline block font-regular text-white"
+                    <div
+                      key={item.name}
+                      className="group relative flex items-center gap-x-6 p-2 text-sm/6"
                     >
                       {item.name}
-                    </a>
-                  </div>
+                    </div>
+                  </a>
                 ))}
               </div>
             </PopoverPanel>
