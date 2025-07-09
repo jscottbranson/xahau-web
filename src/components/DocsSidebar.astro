@@ -7,6 +7,6 @@ const { sidebar } = Astro.locals.starlightRoute
 ---
 
 <SidebarPersister>
-	<Search />
+	<Search class="hidden md:block" />
 	<SidebarSublist sublist={sidebar} />
 </SidebarPersister>
