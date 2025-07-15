@@ -99,8 +99,6 @@ export function remarkGlobalReferences() {
           delete node.referenceType
           delete node.identifier
           delete node.label
-
-          console.log(`Resolved reference [${label}][] to ${refs[label]}`)
         }
       }
     })
@@ -124,7 +122,6 @@ export function remarkGlobalReferences() {
             label,
             url: refs[label],
           })
-          console.log(`Found escaped reference ${fullMatch} -> ${refs[label]}`)
         }
         match = pattern.exec(node.value)
       }
