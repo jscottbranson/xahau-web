@@ -1,6 +1,58 @@
 import { readFileSync } from 'node:fs'
-import { join } from 'node:path'
 import { visit } from 'unist-util-visit'
+
+const parseRules: {
+  path: string
+  parse: (content: string) => { label: string; url: string }[]
+}[] = [
+    {
+      path: 'src/content/references/global.md',
+      parse: (content: string) => {
+        const lines = content.split('\n')
+        const result: { label: string; url: string }[] = []
+        for (const line of lines) {
+          const match = line.match(/^\[([^\]]+)\]:\s*(.+)$/)
+          if (match) {
+            const [, label, url] = match
+            result.push({ label, url: url.trim() })
+          }
+        }
+        return result
+      },
+    },
+    {
+      path: 'src/content/references/transactions.md',
+      parse: (content: string) => {
+        const lines = content.split('\n')
+        const result: { label: string; url: string }[] = []
+        for (const line of lines) {
+          if (line.length > 0) {
+            const url = `/docs/protocol-reference/transactions/transaction-types/${line.toLowerCase()}`
+            result.push({ label: `${line}`, url })
+            result.push({ label: `${line} transaction`, url })
+            result.push({ label: `${line} transactions`, url })
+          }
+        }
+        return result
+      },
+    },
+    {
+      path: 'src/content/references/pseudo-transactions.md',
+      parse: (content: string) => {
+        const lines = content.split('\n')
+        const result: { label: string; url: string }[] = []
+        for (const line of lines) {
+          if (line.length > 0) {
+            const url = `/docs/protocol-reference/transactions/pseudo-transaction-types/${line.toLowerCase()}`
+            result.push({ label: `${line}`, url })
+            result.push({ label: `${line} transaction`, url })
+            result.push({ label: `${line} transactions`, url })
+          }
+        }
+        return result
+      },
+    },
+  ]
 
 /**
  * Remark plugin to resolve reference-style links from global.md
@@ -12,25 +64,15 @@ export function remarkGlobalReferences() {
     if (globalRefs !== null) return globalRefs
 
     try {
-      const globalMdPath = join(
-        process.cwd(),
-        'src/content/references/global.md',
-      )
-      const content = readFileSync(globalMdPath, 'utf-8')
-
       globalRefs = {}
-
-      // Parse reference-style link definitions: [label]: url
-      const lines = content.split('\n')
-      for (const line of lines) {
-        const match = line.match(/^\[([^\]]+)\]:\s*(.+)$/)
-        if (match) {
-          const [, label, url] = match
-          globalRefs[label] = url.trim()
+      for (const rule of parseRules) {
+        const content = readFileSync(rule.path, 'utf-8')
+        const refs = rule.parse(content)
+        for (const ref of refs) {
+          globalRefs[ref.label] = ref.url
         }
       }
 
-      console.log('Loaded global references:', globalRefs)
       return globalRefs
     } catch (error: any) {
       console.warn('Could not load global.md references:', error.message)
