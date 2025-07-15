@@ -7,3 +7,7 @@
 [seconds since the Ripple Epoch]: /docs/protocol-reference/data-types/#specifying-time
 [Ledger Index]: /docs/protocol-reference/data-types/#ledger-index
 [ledger index]: /docs/protocol-reference/data-types/#ledger-index
+[Hash]: /docs/protocol-reference/data-types/#hashes
+[Address]: /docs/protocol-reference/data-types/#addresses
+[Currency Amount]: /docs/protocol-reference/data-types/#specifying-currency-amounts
+[drops of XAH]: /docs/protocol-reference/data-types/#specifying-currency-amounts
