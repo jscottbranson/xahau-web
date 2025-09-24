@@ -280,15 +280,11 @@ export default defineConfig({
         {
           label: 'Infrastructure',
           items: [
-            'docs/infrastructure/node-requirements',
-            {
-              label: 'Running a Node',
-              collapsed: true,
-              items: [
-                'docs/infrastructure/running-a-node/running-a-mainnet-node',
-                'docs/infrastructure/running-a-node/running-a-testnet-node',
-              ],
-            },
+            'docs/infrastructure/system-requirements',
+            'docs/infrastructure/installing-xahaud',
+            'docs/infrastructure/updating-xahaud',
+            'docs/infrastructure/enabling-validation',
+            'docs/infrastructure/interacting',
             {
               label: 'Building Xahau (Dev)',
               collapsed: true,
