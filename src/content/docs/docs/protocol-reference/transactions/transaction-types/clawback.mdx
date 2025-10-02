@@ -3,7 +3,9 @@ title: Clawback
 description: >-
   Revoke tokens that were previously issued by your account.
 ---
-# Clawback
+\[[Source](https://github.com/Xahau/xahaud/blob/dev/src/ripple/app/tx/impl/Clawback.cpp)]
+
+_(Added by the \[Clawback amendment]\[].)_
 
 Revoke tokens that were previously issued by your account. The **Clawback** feature is disabled by default. To use it, you must first submit an **AccountSet** transaction that enables *Allow Trust Line Clawback*. If your account has already issued tokens, you cannot enable Clawback afterward. You can only activate *Allow Trust Line Clawback* if your owner directory is completely empty — meaning before creating trust lines, offers, escrows, payment channels, checks, or signer lists. Once enabled, Clawback becomes a permanent capability of your account and cannot be undone.
 
