@@ -292,8 +292,8 @@ export default defineConfig({
               collapsed: true,
               items: [
                 'docs/infrastructure/building-xahau',
-                'docs/infrastructure/building-xahau/ubuntu-22-04',
-                'docs/infrastructure/building-xahau/mac-os-13-5-2',
+                'docs/infrastructure/building-xahau/ubuntu',
+                'docs/infrastructure/building-xahau/macos',
               ],
             },
           ],
