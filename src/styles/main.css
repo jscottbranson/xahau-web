@@ -24,3 +24,7 @@
 .page-content a:hover {
   @apply text-black;
 }
+
+.page-content .text-white a {
+  @apply text-white underline;
+}
