@@ -1,0 +1,115 @@
+---
+title: Linux Build Instructions
+---
+import { Aside } from '@astrojs/starlight/components';
+
+
+
+These instructions are designed to work for Debian and Red Hat (9 or 10) based Linux distributions. While some instructions overlap, differences across operating systems are noted. While efforts are made to test builds across operating systems, Ubuntu is the most tested and supported environment for building and running xahaud.
+
+For additional instructions, refer to the [BUILD.md](https://github.com/Xahau/xahaud/blob/dev/BUILD.md) in the Xahau/xahaud Github Repository.
+
+## The Build Environment
+
+Maintaining different build environments (Python3 venvs, Conan2  profiles, etc.) is a complex task, even more so as underlying operating systems often rely on or expect specific versions of software. Thus, those new to the build process may benefit from writing bash scripts that are used on machines that reset their state at reboot. Configuring a Linux system to completely forget all the software that was installed or modified during runtime provides an easy path to recover from build errors. Typically, an amnesiac operating system is run as a virtual machine with a very large amount of memory available, as all changes are written to memory instead of disk. Building xahaud can take close to 32GB of memory, if all software dependencies/requirements are installed in a memory based overlay file system.
+
+It is also possible to use Docker or other container systems to create specific build environments.
+
+The following subsections address configuring build environments with the required software dependencies.
+
+### Containerized Environments
+Will go here...
+
+### Amnesiac Operating System Environments
+
+To configure an amnesic operating system using Debian based systems:
+```
+# Install the 'overlayroot' software package
+apt update && apt install overlayroot
+
+# Update the configuration file to enable an in-memory overlay file system
+sudo sed -i 's/^overlayroot=.*/overlayroot="tmpfs:swap=1,recurse=0"/' /etc/overlayroot.conf
+
+# Rebuild initramfs
+update-initramfs -u
+```
+
+To configure an amnesic operating system using RHEL 9/10 based systems:
+```
+# Ensure dracut is installed
+dnf install dracut -y
+
+# Configure dracut to support the overlay
+printf 'add_drivers+=" overlay "\n' > /etc/dracut.conf.d/overlay.conf # Use this line for RHEL 9
+printf 'add_drivers+=" overlay "\nadd_dracutmodules+=" overlayfs "\n' > /etc/dracut.conf.d/overlay.conf # Use this line for RHEL 10
+
+# Rebuild
+dracut -f
+
+# Update the boot image to use a systemd volatile overlay
+grubby --update-kernel=ALL --args="systemd.volatile=overlay"
+```
+To disable amnesia on Debian based systems:
+1. Hold `Shift` or `Esc` during boot to enter the GRUB menu (be careful not to enter the BIOS by pressing `Esc` before the firmware logo).
+2. Press `e` to edit the Ubuntu boot entry.
+3. Edit only the `overlayroot=` option to read `overlayroot=disabled`. This will allow a one-time boot into a system with a memory.
+4. To permanently disable amnesia, run `sudo sed -i '/^overlayroot=/c\overlayroot="disabled"' /etc/overlayroot.conf` to change `overlayroot="disabled"` in the /etc/overlayroot.conf file. Then update initramfs `sudo update-initramfs -u`.
+
+To disable amnesia on RHEL 9/10 based systems:
+1. Press `e` at the boot menu to edit the options.
+2. Remove the "systemd.volatile=overlay" option.
+3. Press `F10` to boot.
+4. To permanently disable amnesia, run `grubby --update-kernel=ALL --remove-args="systemd.volatile=overlay"`
+
+### Installing Dependencies
+
+For compatibility, it is important to attend to specific versions of software used in the build process. Current requirements include:
+
+
+| Dependency  | Version   | 
+| :---------- | :-------- | 
+| Python3     | >= 3.10   |
+| Conan       | >= 2.x    |
+| Ninja Build | ?         |
+| GCC / G++   | >= 11.x   |
+| CMake       | >= 3.16   |
+
+| Dependency | Working Version |
+| ---------- | --------------- |
+| GCC / G++  | 14.0.3          |
+| LLVM       | 14.0.3          |
+| LLD        | 14.0.3          |
+| Boost      | 1.86.0          |
+| CMake      | 3.23.1          |
+| Protobuf   | 3.20.0          |
+| WasmEdge   | 0.11.2          |
+
+
+Debian/Ubuntu users can install required dependencies using these commands:
+```
+sudo apt install -y git curl wget python3-pip python3-venv python3-dev ca-certificates gcc g++ build-essential cmake ninja-build libc6-dev libssl-dev libsqlite3-dev
+```
+
+Likewise, RHEL 9 or RHEL 10 users can install dependencies:
+```
+sudo dnf install epel-release && sudo dnf update -y
+sudo dnf config-manager --set-enabled crb -y
+sudo dnf install curl wget git ca-certificates cmake glibc-headers glibc-devel ninja-build perl-interpreter perl perl-FindBin sqlite-devel -y
+sudo dnf groupinstall "Development Tools" -y
+```
+
+## Clone the Xahau/xahaud GitHub Repository
+Before building, acquire a local copy of the GitHub xahaud repository:
+
+`git clone https://github.com/Xahau/xahaud.git`
+
+It is possible to build from other forks of the repository, simply adjust the above URL as needed.
+
+### Select the Repository Branch
+The primary branch used for xahaud development is `dev`. Users who prefer to build from an alternate branch can do so:
+
+`git checkout [branch name]`
+
+## Installing Conan2
+will go here...
+

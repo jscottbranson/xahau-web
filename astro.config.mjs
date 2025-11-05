@@ -292,7 +292,7 @@ export default defineConfig({
               collapsed: true,
               items: [
                 'docs/infrastructure/building-xahaud',
-                'docs/infrastructure/building-xahaud/ubuntu',
+                'docs/infrastructure/building-xahaud/linux',
                 'docs/infrastructure/building-xahaud/macos',
               ],
             },
