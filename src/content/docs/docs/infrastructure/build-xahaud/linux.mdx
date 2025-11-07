@@ -1,0 +1,169 @@
+---
+title: Linux Build Instructions
+---
+import { Aside } from '@astrojs/starlight/components';
+
+
+
+These instructions are designed to work for Debian and Red Hat (9 or 10) based Linux distributions. While some instructions overlap, differences across operating systems are noted. While efforts are made to test builds across operating systems, Ubuntu is the most tested and supported environment for building and running xahaud. Please be advised that building software from source code is a complex task that requires advanced technical knowledge an experience. It is possible to make changes at an operating system level that cannot be easily recovered from. Anyone undertaking the build process does so at their own risk.
+
+For additional instructions, refer to the [BUILD.md](https://github.com/Xahau/xahaud/blob/dev/BUILD.md) in the Xahau/xahaud Github Repository.
+
+## The Build Environment
+
+Maintaining different build environments (Python3 venvs, Conan2  profiles, etc.) is a complex task, even more so as underlying operating systems often rely on or expect specific versions of software. Thus, those new to the build process may benefit from using containers or writing bash scripts that are used on machines that reset their state at reboot.
+
+The following subsections address configuring build environments with the required software dependencies.
+
+### Containerized Environments
+Will go here...
+
+### Amnesiac Operating System Environments
+
+Configuring a Linux system to completely forget all the software that was installed or modified during runtime provides an easy path to recover from build errors. Typically, an amnesiac operating system is run as a virtual machine with a very large amount of memory available, as all changes are written to memory instead of disk. Building xahaud can take over 20 GB of memory, if all software dependencies/requirements are installed in a memory based overlay file system. It is typically possible to install most of the software dependencies (using `apt` or `dnf`) prior to making the system amnesiac, thereby reducing required memory.
+
+To configure an amnesic operating system using Debian based systems:
+```
+# Install the 'overlayroot' software package
+apt update && apt install overlayroot
+
+# Update the configuration file (/etc/overlayroot.conf) to enable an in-memory overlay file system.
+sudo sed -i 's/^overlayroot=.*/overlayroot="tmpfs:swap=1,recurse=0"/' /etc/overlayroot.conf
+
+# Rebuild initramfs
+update-initramfs -u
+
+# Reboot into the overlay
+reboot
+
+# After rebooting, it is possible to remount the overlay filesystem with more memory, as only 50% of available memory is dedicated to the overlayfs by default.
+When resizing memory, ensure some memory remains available for system use. The following will remount with the overlayfs set to use 30G of memory, adjust as needed.
+sudo mount -o remount,size=30G /media/root-rw
+```
+
+To configure an amnesic operating system using RHEL 9/10 based systems:
+```
+# Ensure dracut is installed
+dnf install dracut -y
+
+# Configure dracut to support the overlay
+printf 'add_drivers+=" overlay "\n' > /etc/dracut.conf.d/overlay.conf # Use this line for RHEL 9
+printf 'add_drivers+=" overlay "\nadd_dracutmodules+=" overlayfs "\n' > /etc/dracut.conf.d/overlay.conf # Use this line for RHEL 10
+
+# Rebuild
+dracut -f
+
+# Update the boot image to use a systemd volatile overlay
+grubby --update-kernel=ALL --args="systemd.volatile=overlay"
+```
+To disable amnesia on Debian based systems:
+1. Press `e` to edit the Ubuntu boot entry.
+2. On the line starting with "linux..." edit or add `overlayroot=` option to read `overlayroot=disabled`. This will allow a one-time boot into a system with a memory.
+3. To permanently disable amnesia, run `sudo sed -i '/^overlayroot=/c\overlayroot="disabled"' /etc/overlayroot.conf` to change `overlayroot="disabled"` in the /etc/overlayroot.conf file. Then update initramfs `sudo update-initramfs -u`.
+
+To disable amnesia on RHEL 9/10 based systems:
+1. Press `e` at the boot menu to edit the options.
+2. Remove the "systemd.volatile=overlay" option.
+3. Press `F10` to boot.
+4. To permanently disable amnesia, run `grubby --update-kernel=ALL --remove-args="systemd.volatile=overlay"`
+
+## Install Dependencies
+
+For compatibility, it is important to attend to specific versions of software used in the build process. xahaud is written in the C++20 language.
+
+Current requirements for building xahaud include:
+
+
+| Dependency  | Version   | 
+| :---------- | :-------- | 
+| Python3     | >= 3.10   |
+| Conan       | >= 2.x    |
+| Ninja Build | ?         |
+| GCC / G++   | >= 14.x   |
+| CMake       | >= 3.23  |
+
+Debian/Ubuntu users can install required dependencies using these commands:
+```
+sudo apt install -y git curl wget python3-pip python3-venv python3-dev ca-certificates gcc g++ build-essential cmake ninja-build libc6-dev libssl-dev libsqlite3-dev
+```
+
+Likewise, RHEL 9 or RHEL 10 users can install dependencies:
+```
+sudo dnf install epel-release && sudo dnf update -y
+sudo dnf config-manager --set-enabled crb -y
+sudo dnf groupinstall "Development Tools" -y
+sudo dnf install curl wget git ca-certificates cmake glibc-headers glibc-devel ninja-build perl-interpreter perl perl-FindBin sqlite-devel libstdc++ libstdc++-devel libstdc++-static gcc-c++ -y
+```
+
+## Clone the Xahau/xahaud GitHub Repository
+Before building, acquire a local copy of the GitHub xahaud repository:
+
+`git clone https://github.com/Xahau/xahaud.git`
+
+It is possible to build from other forks of the repository, simply adjust the above URL as needed.
+
+### Select the Repository Branch
+The primary branch used for xahaud development is `dev`. Users who prefer to build from an alternate branch can do so:
+
+`git checkout [branch name]`
+
+### Prepare the build directory
+Create a directory inside the xahaud repository to house the files generated during the build process:
+
+`mkdir [/path/to/xahaud_github_repo]/.build`
+
+## Install and Configure Conan2
+1. Ensure you are in the build directory: `cd [/path/to/xahaud_github_repo]/.build`
+
+2. Create a Python3 virtual environment (venv) in the `env` directory: `python3 -m venv env`
+
+3. Activate the virtual environment: `source ./env/bin/activate`
+
+4. Update PIP so the latest versions of software are available: `pip install --upgrade pip`
+
+5. Install Conan2: `pip install conan`
+
+6. Create a new Conan2 profile (if you haven't already): `conan profile detect`
+
+7. Install the Conan recipes for the snappy, soci, and wasmedge dependencies:
+```
+conan export external/snappy --version 1.1.10 --user xahaud --channel stable
+conan export external/soci --version 4.0.3 --user xahaud --channel stable
+conan export external/wasmedge --version 0.11.2 --user xahaud --channel stable
+```
+8. Review your Conan2 profile, located in: `/home/[username]/.conan2/profiles/default`. If needed, add:
+```
+[settings]
+compiler.cppstd=20
+compiler.libcxx=libstdc++11
+```
+9. It might be necessary to include the following lines at the end of your Conan2 profile:
+```
+[conf]
+tools.build:cxxflags=['-Wno-restrict']
+```
+
+## Build xahaud
+Inside the `.build` directory, with the Python3 virtual environment active, adjust "build_type" and then run the following:
+
+`conan install .. --output-folder . --build missing --settings build_type=["Release" or "Debug"] -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose`
+
+If needed, additional options can be passed to Conan2:
+
+`conan install .. --output-folder . --build missing --settings build_type=["Release" or "Debug"] -s compiler=gcc -s compiler.version=12 -s compiler.libcxx=libstdc++11 -s compiler.cppstd=20 -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose se -g VirtualBuildEnv -g VirtualRunEnv`
+
+After Conan2 is complete, run cmake:
+
+```
+cmake -DCMAKE_POLICY_DEFAULT_CMP0091=NEW \
+	-DCMAKE_BUILD_TYPE=$RELEASE_TYPE \
+	-DCMAKE_TOOLCHAIN_FILE:FILEPATH=build/generators/conan_toolchain.cmake \
+	..
+```
+
+Finally, use cmake to complete the build process: `cmake --build .`
+
+The output file will be named `rippled` and located in the `.build` directory. Rename the file to 'xahaud', and move it to it's final location (being careful not to overwrite the 'xahaud' GitHub repository).
+
+## Test the Build
+Will go here...
