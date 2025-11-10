@@ -4,8 +4,7 @@ title: Linux Build Instructions
 import { Aside } from '@astrojs/starlight/components';
 
 
-
-These instructions are designed to work for Debian and Red Hat (9 or 10) based Linux distributions. While some instructions overlap, differences across operating systems are noted. While efforts are made to test builds across operating systems, Ubuntu is the most tested and supported environment for building and running xahaud. Please be advised that building software from source code is a complex task that requires advanced technical knowledge an experience. It is possible to make changes at an operating system level that cannot be easily recovered from. Anyone undertaking the build process does so at their own risk.
+These instructions are designed to work for Debian (i.e., Ubuntu 22.04 and 24.04) and Red Hat Enterprise Linux (9 or 10) based distributions. While some instructions overlap, differences across operating systems are noted. While efforts are made to test builds across operating systems, Ubuntu is the most tested and supported environment for building and running xahaud.
 
 For additional instructions, refer to the [BUILD.md](https://github.com/Xahau/xahaud/blob/dev/BUILD.md) in the Xahau/xahaud Github Repository.
 
@@ -69,19 +68,6 @@ To disable amnesia on RHEL 9/10 based systems:
 
 ## Install Dependencies
 
-For compatibility, it is important to attend to specific versions of software used in the build process. xahaud is written in the C++20 language.
-
-Current requirements for building xahaud include:
-
-
-| Dependency  | Version   | 
-| :---------- | :-------- | 
-| Python3     | >= 3.10   |
-| Conan       | >= 2.x    |
-| Ninja Build | ?         |
-| GCC / G++   | >= 14.x   |
-| CMake       | >= 3.23  |
-
 Debian/Ubuntu users can install required dependencies using these commands:
 ```
 sudo apt install -y git curl wget python3-pip python3-venv python3-dev ca-certificates gcc g++ build-essential cmake ninja-build libc6-dev libssl-dev libsqlite3-dev
@@ -125,7 +111,7 @@ Create a directory inside the xahaud repository to house the files generated dur
 
 6. Create a new Conan2 profile (if you haven't already): `conan profile detect`
 
-7. Install the Conan recipes for the snappy, soci, and wasmedge dependencies:
+7. Install the Conan recipes for the Snappy, SOCI, and WasmEdge dependencies, included in the "xahaud" GitHub repository:
 ```
 conan export external/snappy --version 1.1.10 --user xahaud --channel stable
 conan export external/soci --version 4.0.3 --user xahaud --channel stable
@@ -168,4 +154,4 @@ cmake -DCMAKE_POLICY_DEFAULT_CMP0091=NEW \
 The output file is named `rippled` and is located in the `.build` directory. If multiple build types (both "Release" and "Debug") were specified, the final product will be located at: `.build/["Release" or "Debug"]/rippled` Rename the file to 'xahaud', and move it to it's final location (being careful not to overwrite the 'xahaud' GitHub repository). Mark the final file as executable, and download a configuration file and validators file as needed.
 
 ## Test the Build
-`./xahaud --unittest`
+To run unit tests: `./xahaud --unittest`
