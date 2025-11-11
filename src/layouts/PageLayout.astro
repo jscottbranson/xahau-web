@@ -1,14 +1,13 @@
 ---
-import '../styles/main.css'
-import BaseLayout from '../layouts/BaseLayout.astro'
+  import '../styles/main.css'
+  import BaseLayout from '../layouts/BaseLayout.astro'
 
-const { frontmatter } = Astro.props
+  const _frontmatter = Astro.props.frontmatter
 ---
-
-<BaseLayout frontmatter={frontmatter}>
+<BaseLayout frontmatter={_frontmatter}>
   <div class="flex-none container mx-auto py-12 text-left max-w-7xl p-6">
-    <h1 class="text-5xl font-extrabold mb-2">{frontmatter.title}</h1>
-    <h2 class="text-2xl font-semibold">{frontmatter.description}</h2>
+    <h1 class="text-5xl font-extrabold mb-2">{_frontmatter.title}</h1>
+    <h2 class="text-2xl font-semibold">{_frontmatter.description}</h2>
   </div>
   {Astro.props.wide ? <main class="page-content"><slot /></main> : <main class="page-content flex-1 container mx-auto max-w-7xl p-6"><slot /></main>}
 </BaseLayout>
