@@ -8,63 +8,9 @@ These instructions are designed to work for Debian (i.e., Ubuntu 22.04 and 24.04
 
 For additional instructions, refer to the [BUILD.md](https://github.com/Xahau/xahaud/blob/dev/BUILD.md) in the Xahau/xahaud Github Repository.
 
-## The Build Environment
-
-Maintaining different build environments (Python3 venvs, Conan2  profiles, etc.) is a complex task, even more so as underlying operating systems often rely on or expect specific versions of software. Thus, those new to the build process may benefit from using containers or writing bash scripts that are used on machines that reset their state at reboot.
-
-The following subsections address configuring build environments with the required software dependencies.
-
-### Containerized Environments
-Will go here...
-
-### Amnesiac Operating System Environments
-
-Configuring a Linux system to completely forget all the software that was installed or modified during runtime provides an easy path to recover from build errors. Typically, an amnesiac operating system is run as a virtual machine with a very large amount of memory available, as all changes are written to memory instead of disk. Building xahaud can take over 20 GB of memory, if all software dependencies/requirements are installed in a memory based overlay file system. It is typically possible to install most of the software dependencies (using `apt` or `dnf`) prior to making the system amnesiac, thereby reducing required memory.
-
-To configure an amnesic operating system using Debian based systems:
-```
-# Install the 'overlayroot' software package
-apt update && apt install overlayroot
-
-# Update the configuration file (/etc/overlayroot.conf) to enable an in-memory overlay file system.
-sudo sed -i 's/^overlayroot=.*/overlayroot="tmpfs:swap=1,recurse=0"/' /etc/overlayroot.conf
-
-# Rebuild initramfs
-update-initramfs -u
-
-# Reboot into the overlay
-reboot
-
-# After rebooting, it is possible to remount the overlay filesystem with more memory, as only 50% of available memory is dedicated to the overlayfs by default.
-When resizing memory, ensure some memory remains available for system use. The following will remount with the overlayfs set to use 30G of memory, adjust as needed.
-sudo mount -o remount,size=30G /media/root-rw
-```
-
-To configure an amnesic operating system using RHEL 9/10 based systems:
-```
-# Ensure dracut is installed
-dnf install dracut -y
-
-# Configure dracut to support the overlay
-printf 'add_drivers+=" overlay "\n' > /etc/dracut.conf.d/overlay.conf # Use this line for RHEL 9
-printf 'add_drivers+=" overlay "\nadd_dracutmodules+=" overlayfs "\n' > /etc/dracut.conf.d/overlay.conf # Use this line for RHEL 10
-
-# Rebuild
-dracut -f
-
-# Update the boot image to use a systemd volatile overlay
-grubby --update-kernel=ALL --args="systemd.volatile=overlay"
-```
-To disable amnesia on Debian based systems:
-1. Press `e` to edit the Ubuntu boot entry.
-2. On the line starting with "linux..." edit or add `overlayroot=` option to read `overlayroot=disabled`. This will allow a one-time boot into a system with a memory.
-3. To permanently disable amnesia, run `sudo sed -i '/^overlayroot=/c\overlayroot="disabled"' /etc/overlayroot.conf` to change `overlayroot="disabled"` in the /etc/overlayroot.conf file. Then update initramfs `sudo update-initramfs -u`.
-
-To disable amnesia on RHEL 9/10 based systems:
-1. Press `e` at the boot menu to edit the options.
-2. Remove the "systemd.volatile=overlay" option.
-3. Press `F10` to boot.
-4. To permanently disable amnesia, run `grubby --update-kernel=ALL --remove-args="systemd.volatile=overlay"`
+<Aside type="caution">
+Creating an environment to build xahaud can cause permanent system damage. The [Build Environments](#build-environments) section of this page contains techniques for isolating your build environment from your underlying operating system. Undertake system changes at your own risk.
+</Aside>
 
 ## Install Dependencies
 
@@ -155,3 +101,63 @@ The output file is named `rippled` and is located in the `.build` directory. If 
 
 ## Test the Build
 To run unit tests: `./xahaud --unittest`
+
+
+## Build Environments
+
+Maintaining different build environments (Python3 venvs, Conan2  profiles, etc.) is a complex task, even more so as underlying operating systems often rely on or expect specific versions of software. Thus, those new to the build process may benefit from using containers or writing bash scripts that are used on machines that reset their state at reboot.
+
+The following subsections address configuring build environments with the required software dependencies.
+
+### Containerized Environments
+Will go here...
+
+### Amnesiac Operating System Environments
+
+Configuring a Linux system to completely forget all the software that was installed or modified during runtime provides an easy path to recover from build errors. Typically, an amnesiac operating system is run as a virtual machine with a very large amount of memory available, as all changes are written to memory instead of disk. Building xahaud can take over 20 GB of memory, if all software dependencies/requirements are installed in a memory based overlay file system. It is typically possible to install most of the software dependencies (using `apt` or `dnf`) prior to making the system amnesiac, thereby reducing required memory.
+
+To configure an amnesic operating system using Debian based systems:
+```
+# Install the 'overlayroot' software package
+apt update && apt install overlayroot
+
+# Update the configuration file (/etc/overlayroot.conf) to enable an in-memory overlay file system.
+sudo sed -i 's/^overlayroot=.*/overlayroot="tmpfs:swap=1,recurse=0"/' /etc/overlayroot.conf
+
+# Rebuild initramfs
+update-initramfs -u
+
+# Reboot into the overlay
+reboot
+
+# After rebooting, it is possible to remount the overlay filesystem with more memory, as only 50% of available memory is dedicated to the overlayfs by default.
+When resizing memory, ensure some memory remains available for system use. The following will remount with the overlayfs set to use 30G of memory, adjust as needed.
+sudo mount -o remount,size=30G /media/root-rw
+```
+
+To configure an amnesic operating system using RHEL 9/10 based systems:
+```
+# Ensure dracut is installed
+dnf install dracut -y
+
+# Configure dracut to support the overlay
+printf 'add_drivers+=" overlay "\n' > /etc/dracut.conf.d/overlay.conf # Use this line for RHEL 9
+printf 'add_drivers+=" overlay "\nadd_dracutmodules+=" overlayfs "\n' > /etc/dracut.conf.d/overlay.conf # Use this line for RHEL 10
+
+# Rebuild
+dracut -f
+
+# Update the boot image to use a systemd volatile overlay
+grubby --update-kernel=ALL --args="systemd.volatile=overlay"
+```
+To disable amnesia on Debian based systems:
+1. Press `e` to edit the Ubuntu boot entry.
+2. On the line starting with "linux..." edit or add `overlayroot=` option to read `overlayroot=disabled`. This will allow a one-time boot into a system with a memory.
+3. To permanently disable amnesia, run `sudo sed -i '/^overlayroot=/c\overlayroot="disabled"' /etc/overlayroot.conf` to change `overlayroot="disabled"` in the /etc/overlayroot.conf file. Then update initramfs `sudo update-initramfs -u`.
+
+To disable amnesia on RHEL 9/10 based systems:
+1. Press `e` at the boot menu to edit the options.
+2. Remove the "systemd.volatile=overlay" option.
+3. Press `F10` to boot.
+4. To permanently disable amnesia, run `grubby --update-kernel=ALL --remove-args="systemd.volatile=overlay"`
+
