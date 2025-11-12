@@ -20,7 +20,6 @@ footer {
 
 @media (prefers-reduced-motion: no-preference) {
   @view-transition {
-    /* biome-ignore lint: noUnknownProperty */
     navigation: auto;
   }
 }

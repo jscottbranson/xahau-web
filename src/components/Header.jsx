@@ -19,6 +19,8 @@ import {
 import { useState } from 'react'
 
 const socials = [
+  { name: 'Events', href: '/connect' },
+  { name: 'Dev Contest', href: '/contest' },
   { name: 'X', href: 'https://x.com/XahauNetwork' },
   { name: 'GitHub', href: 'https://github.com/Xahau' },
   { name: 'Community Discord', href: 'https://discord.com/invite/UzU58haAn4' },
