@@ -19,6 +19,8 @@ import {
 import { useState } from 'react'
 
 const socials = [
+  { name: 'Events', href: '/connect' },
+  { name: 'Dev Contest', href: '/contest' },
   { name: 'X', href: 'https://x.com/XahauNetwork' },
   { name: 'GitHub', href: 'https://github.com/Xahau' },
   { name: 'Community Discord', href: 'https://discord.com/invite/UzU58haAn4' },
@@ -87,12 +89,6 @@ export default function Header(props) {
             Ecosystem
           </a>
           <a
-            href="/connect"
-            className={`selected:no-underline no-underline text-base text-black ${props.url.pathname.slice(1).split('/')[0] === 'events' ? 'font-bold' : 'font-regular'}`}
-          >
-            Events
-          </a>
-          <a
             href="/roadmap"
             className={`selected:no-underline no-underline text-base text-black ${props.url.pathname.slice(1).split('/')[0] === 'roadmap' ? 'font-bold' : 'font-regular'}`}
           >
@@ -132,7 +128,7 @@ export default function Header(props) {
           </Popover>
           <Popover className="relative">
             <PopoverButton className="flex p-0 border-none items-center gap-x-1 text-base font-regular text-black bg-transparent hover:cursor-pointer ">
-              Socials
+              Connect
               <ChevronDownIcon
                 aria-hidden="true"
                 className="size-5 flex-none text-black"
@@ -260,12 +256,6 @@ export default function Header(props) {
                   Ecosystem
                 </a>
                 <a
-                  href="/connect"
-                  className={`selected:no-underline no-underline -mx-3 block rounded-lg px-3 py-2 text-base/7 text-base/7 hover:bg-gray-50 text-black ${props.url.pathname.slice(1).split('/')[0] === 'events' ? 'font-bold' : 'font-regular'}`}
-                >
-                  Events
-                </a>
-                <a
                   href="/roadmap"
                   className={`selected:no-underline no-underline -mx-3 block rounded-lg px-3 py-2 text-base/7 text-base/7 hover:bg-gray-50 text-black ${props.url.pathname.slice(1).split('/')[0] === 'roadmap' ? 'font-bold' : 'font-regular'}`}
                 >
@@ -296,7 +286,7 @@ export default function Header(props) {
                 </Disclosure>
                 <Disclosure as="div" className="-mx-3">
                   <DisclosureButton className="border-none bg-transparent group flex w-full items-center justify-between rounded-lg py-2 pr-3.5 pl-3 text-base/7 font-regular text-black hover:bg-gray-50">
-                    Socials
+                    Connect
                     <ChevronDownIcon
                       aria-hidden="true"
                       className="size-5 flex-none group-data-open:rotate-180"
