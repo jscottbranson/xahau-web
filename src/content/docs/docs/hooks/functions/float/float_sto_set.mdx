@@ -62,7 +62,7 @@ if (vault_pusd < 0)
 
 <TabItem label="JavaScript">
 ```javascript
-const vault_pusd = float_sto_set(vault)
+const vault_pusd = float_sto_set(./vault)
 if (typeof vault_pusd === 'string')
   rollback("Failed to parse serialized float.", 1)
 ```

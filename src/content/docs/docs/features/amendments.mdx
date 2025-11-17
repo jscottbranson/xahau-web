@@ -54,3 +54,69 @@ You can unblock amendment blocked servers by upgrading to the newest version of 
 When amendments are enabled, the source code for pre-amendment behaviors remain in `xahaud`. While there are use-cases for keeping old code, such as reconstructing ledger outcomes for verification, tracking amendments and legacy code adds complexity over time.
 
 The [XRP Ledger Standard 11d](https://github.com/XRPLF/XRPL-Standards/discussions/19) defines a process for retiring old amendments and associated pre-amendment code. After an amendment has been enabled on the Mainnet for two years, it can be retired. Retiring an amendment makes it part of the core protocol unconditionally; it's no longer tracked or treated as an amendment, and all pre-amendment code is removed.
+
+### Known Amendments
+
+The following amendments have been implemented or are in the process of being enabled on Xahau:
+
+#### Feature Amendments
+
+**XahauGenesis** - Enables the genesis account to mint XAH and distribute it via [GenesisMint transactions](/docs/protocol-reference/transactions/transaction-types/genesismint-emitted-txn).
+
+**Hooks** - Core amendment enabling Hook smart contract functionality on Xahau. _(Added by the [Hooks amendment][].)_
+
+**HooksUpdate1** - Updates and improvements to the Hooks system.
+
+**Remit** - Enables [Remit transactions](/docs/protocol-reference/transactions/transaction-types/remit) that allow sending multiple payment types, minting URITokens, transferring URITokens, and activating accounts in a single transaction.
+
+**ZeroB2M** - Enables Burn2Mint operations with zero amounts. Fixes issues related to Burn2Mint operations when dealing with zero amounts.
+
+**Remarks** - Enables [SetRemarks transactions](/docs/protocol-reference/transactions/transaction-types/setremarks) that allow accounts to attach, update, or remove arbitrary remarks (key-value pairs) on supported ledger objects.
+
+**Touch** - Enables Touch transactions for account activation and interaction.
+
+**HookCanEmit** - Adds the `HookCanEmit` field to [HookDefinition](/docs/protocol-reference/ledger-data/ledger-objects-types/hook-definition) objects, specifying which transaction types a hook is allowed to emit.
+
+**Clawback** - Enables [Clawback transactions](/docs/protocol-reference/transactions/transaction-types/clawback) that allow issuers to revoke tokens that were previously issued by their account.
+
+**DeepFreeze** - Enables deep freeze functionality for trustlines and assets.
+
+**IOUIssuerWeakTSH** - Makes IOU issuers weak transactional stakeholders (TSH) in certain transaction types. See [Weak and Strong](/docs/hooks/concepts/weak-and-strong) for details.
+
+**Cron** - Enables scheduled Hook execution via [CronSet transactions](/docs/protocol-reference/transactions/transaction-types/cronset) and [Cron ledger objects](/docs/protocol-reference/ledger-data/ledger-objects-types/cron). _(Added by the [CronSet amendment][].)_
+
+**ExtendedHookState** - Extends Hook state management capabilities, including the `HookStaleScale` field for [AccountRoot](/docs/protocol-reference/ledger-data/ledger-objects-types/accountroot) objects to control when Hook state entries become stale. _(Added by the [ExtendedHookState amendment][].)_
+
+#### Bug Fix Amendments
+
+**fixXahauV1** - Fixes issues in the Xahau protocol implementation. _(Introduced in 2024.9.11-release+985)_
+
+**fixXahauV2** - Additional fixes for Xahau protocol implementation issues.
+
+**fixXahauV3** - Further fixes for Xahau protocol implementation issues.
+
+**fixNSDelete** - Fixes issues related to namespace deletion operations in Hooks.
+
+**fix240819** - Bug fix amendment from August 19, 2024.
+
+**fixPageCap** - Fixes issues related to page capacity limits.
+
+**fix240911** - Bug fix amendment from September 11, 2024.
+
+**fixFloatDivide** - Fixes issues with floating point division operations in Hooks. This amendment ensures proper handling of division by zero and edge cases in the `float_divide` function. See [float_divide](/docs/hooks/functions/float/float_divide) for details.
+
+**fixReduceImport** - Fixes issues related to Import transaction processing.
+
+**fix20250131** - Bug fix amendment from January 31, 2025.
+
+**fixRewardClaimFlags** - Fixes issues with reward claim transaction flags.
+
+**fixProvisionalDoubleThreading** - Fixes issues with provisional double threading in transaction processing.
+
+**fixInvalidTxFlags** - Fixes issues with invalid transaction flags.
+
+**fixCronStacking** - Fixes issues with Cron transaction stacking behavior.
+
+### Amendment Status
+
+For the most current status of amendments (enabled, voting, or vetoed), check the [xahaud repository](https://github.com/Xahau/xahaud) or query a running `xahaud` server using the `feature` command.

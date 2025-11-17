@@ -14,7 +14,8 @@ description: An AccountSet transaction modifies the properties of an account in 
     "Sequence": 5,
     "Domain": "6578616D706C652E636F6D",
     "SetFlag": 5,
-    "MessageKey": "03AB40A0490F9B7ED8DF29D246BF2D6269820A0EE7742ACDD457BEA7C7D0931EDB"
+    "MessageKey": "03AB40A0490F9B7ED8DF29D246BF2D6269820A0EE7742ACDD457BEA7C7D0931EDB",
+    "HookStaleScale": 10
 }
 ```
 
@@ -30,6 +31,7 @@ description: An AccountSet transaction modifies the properties of an account in 
 | `TickSize`      | Number    | UInt8               | _(Optional)_ Tick size to use for offers involving a currency issued by this address. The exchange rates of those offers is rounded to this many significant digits. Valid values are `3` to `15` inclusive, or `0` to disable. _(Added by the \[TickSize amendment]\[])_                 |
 | `WalletLocator` | String    | Hash256             | _(Optional)_ An arbitrary 256-bit value. If specified, the value is stored as part of the account but has no inherent meaning or requirements.                                                                                                                                            |
 | `WalletSize`    | Number    | UInt32              | _(Optional)_ Not used. This field is valid in AccountSet transactions but does nothing.                                                                                                                                                                                                   |
+| `HookStaleScale` | Number    | UInt8               | _(Optional)_ Scale factor for determining when Hook state entries become stale. Valid values are `0` to `255` inclusive. _(Added by the [ExtendedHookState amendment][].)_                                                                                                                |
 
 If none of these options are provided, then the AccountSet transaction has no effect (beyond destroying the transaction cost). See Cancel or Skip a Transaction for more details.
 
@@ -42,7 +44,7 @@ To remove the `Domain` field from an account, send an AccountSet with the Domain
 You can put any domain in your account's `Domain` field. To prove that an account and domain belong to the same person or business, you need a "two-way link":
 
 * Accounts you own should have a domain you own in the `Domain` field.
-* At that domain, host a [xahau.toml](../../../infrastructure/identity) file listing accounts you own, and optionally other information about how you use Xahau.
+* At that domain, host a [xahau.toml](/docs/infrastructure/identity) file listing accounts you own, and optionally other information about how you use Xahau.
 
 ### AccountSet Flags
 

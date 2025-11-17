@@ -14,17 +14,16 @@ import { Aside } from '@astrojs/starlight/components';
 
 ### Grants
 
-Grants provide a way for a Hook Installer to assign [State Management](state-management.md) permissions to a _foreign_ Hook on other Xahau accounts.
+Grants provide a way for a Hook Installer to assign [State Management]state-management permissions to a _foreign_ Hook on other Xahau accounts.
 
-A [SetHook Transaction](sethook-transaction.md) may specify a `HookGrants` array within any `Hook` object in its `Hooks` array. The `HookGrants` array contains one or more `HookGrant` objects (up to 8).
+A [SetHook Transaction]sethook-transaction may specify a `HookGrants` array within any `Hook` object in its `Hooks` array. The `HookGrants` array contains one or more `HookGrant` objects (up to 8).
 
-Unlike [Parameters](parameters.md), the `HookGrants` array is always set exactly as specified in the [SetHook Transaction](sethook-transaction.md). Therefore if you wish to update a particular `HookGrant` whilst retaining multiple other `HookGrant` entires that were previously set, you must first obtain the old `HookGrants` array, modify it, and then resubmit the entire array in an [_Update_ Operation](sethook-transaction.md).
+Unlike [Parameters]parameters, the `HookGrants` array is always set exactly as specified in the [SetHook Transaction]sethook-transaction. Therefore if you wish to update a particular `HookGrant` whilst retaining multiple other `HookGrant` entires that were previously set, you must first obtain the old `HookGrants` array, modify it, and then resubmit the entire array in an [_Update_ Operation]sethook-transaction.
 
 To delete all Grants submit an empty `HookGrants` array.
 
 <Aside type="caution">
-  Unlike [Parameters](parameters.md), the `HookGrants` array is always set exactly as specified in the [SetHook Transaction]
-(sethook-transaction.md).
+  Unlike [Parameters]parameters, the `HookGrants` array is always set exactly as specified in the [SetHook Transaction]sethook-transaction.
 </Aside>
 
 A Grant permits a foreign XRPL account or Hook to modify the Hook State within the namespace of the specific Hook for which the Grant is defined.
@@ -88,4 +87,4 @@ The _second grant_ above allows:
 
 ### Using the Grant
 
-To make use of a grant, a Hook modifies State objects on a foreign account by calling [state_foreign_set](../technical/hooks-functions/state/state_foreign_set.md).
+To make use of a grant, a Hook modifies State objects on a foreign account by calling [state_foreign_set](/docs/hooks/functions/state/state_foreign_set).

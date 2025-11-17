@@ -26,7 +26,7 @@ int32_t _g (uint32_t id, uint32_t maxiter);
 
 The first argument `id` is the identifier for this guard. This is a unique constant chosen by the developer, typically the line number in the source file is used.
 
-The second argument `maxiter` is a promise the developer makes to the ledger that this guard will not be _hit_ more than `maxiter` times during the execution of the Hook. If the guard call is executed more than this many times the Hook will automatically rollback with a `GUARD_VIOLATION` ([Hook API return codes](ref:negative-return-codes)). Because the guard will be hit _before_ the loop condition is checked, it is important to add one to the total number of expected iterations. (Note: The GUARD() macro already adds one).
+The second argument `maxiter` is a promise the developer makes to the ledger that this guard will not be _hit_ more than `maxiter` times during the execution of the Hook. If the guard call is executed more than this many times the Hook will automatically rollback with a `GUARD_VIOLATION` ([Hook API return codes](/docs/hooks/functions/overview/return-codes)). Because the guard will be hit _before_ the loop condition is checked, it is important to add one to the total number of expected iterations. (Note: The GUARD() macro already adds one).
 
 <Aside type="caution">
   Guards must be set using numerical literals. You cannot use a variable or runtime value in a Guard.
@@ -37,7 +37,7 @@ The second argument `maxiter` is a promise the developer makes to the ledger tha
 Consider the following for-loop in C:
 
 ```c
-#define GUARD(maxiter) _g(__LINE__, (maxiter)+1)
+#define GUARDmaxiter _g(__LINE__, maxiter+1)
 for (int i = 0; GUARD(3), i < 3; ++i)
 {
   ...
@@ -69,7 +69,7 @@ When using nested loops the `maxiter` argument must reflect the total number of 
 Consider the example below:
 
 ```c
-#define GUARD(maxiter) _g(__LINE__, (maxiter)+1)
+#define GUARDmaxiter _g(__LINE__, maxiter+1)
 for (int i = 0; GUARD(3), i < 3; ++i)
 {
   for (int j = 0; GUARD(15), j < 5; ++j)

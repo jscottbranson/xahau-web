@@ -79,8 +79,8 @@ if (memos_lookup < 0)
 else
 {
     // sfMemos was found and its location is as follows:
-    uint8_t* memos_ptr = SUB_OFFSET(memos_lookup) + memos_ptr;
-    int64_t  memos_len = SUB_LENGTH(memos_lookup);
+    uint8_t* memos_ptr = SUB_OFFSET(./memos_lookup) + memos_ptr;
+    int64_t  memos_len = SUB_LENGTH(./memos_lookup);
 }
 ```
 
@@ -101,8 +101,8 @@ if (typeof memos_lookup === 'number')
 else
 {
     // sfMemos was found and its location is as follows:
-    const memo_start = SUB_OFFSET(memos_lookup)
-    const memo_len = SUB_LENGTH(memos_lookup)
+    const memo_start = SUB_OFFSET(./memos_lookup)
+    const memo_len = SUB_LENGTH(./memos_lookup)
     const memo = txn.slice(memo_start, memo_len)
 }
 ```

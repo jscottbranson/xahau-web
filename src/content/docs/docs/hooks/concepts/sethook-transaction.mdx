@@ -46,7 +46,7 @@ The main body of the SetHook transaction is the hooks array:
 }
 ```
 
-This array _mirrors_ the [Hook Chain](chaining.md) installed on the account:
+This array _mirrors_ the [Hook Chain]chaining installed on the account:
 
 * Position 0 in the array _corresponds_ to position 0 in the Hook Chain.
 * Position 3 in the array _corresponds_ to position 3 in the Hook Chain, etc.
@@ -56,26 +56,26 @@ This array _mirrors_ the [Hook Chain](chaining.md) installed on the account:
 Each entry in the Hooks Array (in the SetHook Transaction) is called a _HookSet Object_, and its corresponding Hook in the account's Hook Chain is called the _Corresponding Hook_.
 
 <figure>
-![Example: A user performs an operation on each Hook in his/her Hook chain with a SetHook transaction.](../../assets/spaces_m6f29os4wP16vCS4lHNh_uploads_NbV5W3McCRKkL4eJeF6v_cdf692e-sethook.png)
+![Example: A user performs an operation on each Hook in his/her Hook chain with a SetHook transaction.](/docs/assets/spaces_m6f29os4wP16vCS4lHNh_uploads_NbV5W3McCRKkL4eJeF6v_cdf692e-sethook.png)
 <figcaption>*Example: A user performs an operation on each Hook in his/her Hook chain with a SetHook transaction.*</figcaption>
 </figure>
 
 ### HookDefinition
 
-Each Corresponding Hook is an object containing a _reference_ (pointer) to a `HookDefinition` object.
+Each Corresponding Hook is an object containing a _reference_ pointer to a `HookDefinition` object.
 
 The HookDefinition object is an unowned reference-counted ledger object that provides for de-duplication of identical web assembly bytecode. Two users using an identical hook will both point to the same HookDefinition.
 
 <figure>
-![Example: Hook Definitions on Xahau](../../assets/spaces_m6f29os4wP16vCS4lHNh_uploads_TlDL7tsVNYi1yU64EZQh_3ef0cee-sethook-Page-2.png)
+![Example: Hook Definitions on Xahau](/docs/assets/spaces_m6f29os4wP16vCS4lHNh_uploads_TlDL7tsVNYi1yU64EZQh_3ef0cee-sethook-Page-2.png)
 <figcaption>*Example: Hook Definitions on Xahau*</figcaption>
 </figure>
 
-For more information see: [Reference Counting](reference-counted-hook-definitions.md)
+For more information see: [Reference Counting]reference-counted-hook-definitions
 
 ### Hook Defaults
 
-When a `HookDefinition` is created it contains the initial [Parameters](parameters.md), [Namespace](namespaces.md) and [Grants](grants.md) supplied by the user. These become the Hook Defaults. Any Hook referencing this Hook Definition will use these defaults _unless_ the SetHook Transaction that creates that reference explicitly overrides those defaults, or a subsequent Update Operation overrides them.
+When a `HookDefinition` is created it contains the initial [Parameters]parameters, [Namespace]namespaces and [Grants]grants supplied by the user. These become the Hook Defaults. Any Hook referencing this Hook Definition will use these defaults _unless_ the SetHook Transaction that creates that reference explicitly overrides those defaults, or a subsequent Update Operation overrides them.
 
 ### HookSet Operations
 

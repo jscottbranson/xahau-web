@@ -25,22 +25,22 @@ The avilable slot APIs are:
 
 | Hook API                                                             | What it does                                                                           |
 | -------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| [slot](../technical/hooks-functions/slot/slot.md)                    | Serialize and output a slotted object                                                  |
-| [slot_clear](../technical/hooks-functions/slot/slot_clear.md)       | Free up a currently occupied slot                                                      |
-| [slot_count](../technical/hooks-functions/slot/slot_count.md)       | Count the elements of an array object in a slot                                        |
+| [slot](/docs/hooks/functions/slot/slot)                    | Serialize and output a slotted object                                                  |
+| [slot_clear](/docs/hooks/functions/slot/slot_clear)       | Free up a currently occupied slot                                                      |
+| [slot_count](/docs/hooks/functions/slot/slot_count)       | Count the elements of an array object in a slot                                        |
 | slot_id                                                             | Compute the canonical hash of the slotted object and return it                         |
-| [slot_set](../technical/hooks-functions/slot/slot_set.md)           | Locate an object based on its keylet and place it into a slot                          |
-| [slot_subarray](../technical/hooks-functions/slot/slot_subarray.md) | Index into a slotted array and assign a sub-object to another slot                     |
-| [slot_subfield](../technical/hooks-functions/slot/slot_subfield.md) | Index into a slotted object and assign a sub-object to another slot                    |
-| [slot_type](../technical/hooks-functions/slot/slot_type.md)         | Retrieve the field code of an object in a slot and, optionally, some other information |
-| [slot_float](../technical/hooks-functions/slot/slot_float.md)       | Parse the STI_AMOUNT in the specified slot and return it as an XFL enclosed number    |
-| [slot_size](../technical/hooks-functions/slot/slot_size.md)         | Compute the serialized size of an object in a slot                                     |
+| [slot_set](/docs/hooks/functions/slot/slot_set)           | Locate an object based on its keylet and place it into a slot                          |
+| [slot_subarray](/docs/hooks/functions/slot/slot_subarray) | Index into a slotted array and assign a sub-object to another slot                     |
+| [slot_subfield](/docs/hooks/functions/slot/slot_subfield) | Index into a slotted object and assign a sub-object to another slot                    |
+| [slot_type](/docs/hooks/functions/slot/slot_type)         | Retrieve the field code of an object in a slot and, optionally, some other information |
+| [slot_float](/docs/hooks/functions/slot/slot_float)       | Parse the STI_AMOUNT in the specified slot and return it as an XFL enclosed number    |
+| [slot_size](/docs/hooks/functions/slot/slot_size)         | Compute the serialized size of an object in a slot                                     |
 
 ### What are keylets?
 
 Keylets are used to locate (point to) on-ledger objects. In brief they are a _hash_ of identifying information from the object, which is the canonical _handle_ for that object.
 
-Hooks use a serialized 34 byte keylet format which can be derrived using the important [util_keylet](ref:util_keylet) function. Without this looking up and slotting objects would be generally impossible.
+Hooks use a serialized 34 byte keylet format which can be derrived using the important [util_keylet](/docs/hooks/functions/utilities/util_keylet) function. Without this looking up and slotting objects would be generally impossible.
 
 <Aside type="tip">
   The Hook APIs which accept a 34 byte keylet will also generally accept a 32 byte canonical transaction hash.
@@ -52,11 +52,11 @@ In the following example a 34 byte keylet for a `signers` object is used to slot
 
 ```c
 uint8_t keylet[34];
-if (util_keylet(SBUF(keylet), KEYLET_SIGNERS, SBUF(hook_accid), 0, 0, 0, 0) != 34)
+if (util_keylet(SBUFkeylet, KEYLET_SIGNERS, SBUF(hook_accid), 0, 0, 0, 0) != 34)
     rollback(SBUF("Notary: Internal error, could not generate keylet"), 10);
 
 // then requesting XRPLD slot that keylet into a new slot for us
-int64_t slot_no = slot_set(SBUF(keylet), 0);
+int64_t slot_no = slot_set(SBUFkeylet, 0);
 if (slot_no < 0)
    rollback(SBUF("Notary: Could not set keylet in slot"), 10);
 ```

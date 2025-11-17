@@ -53,7 +53,7 @@ function sto_validate(blob: ByteArray | HexString): ErrorCode | number
 <TabItem label="C">
 ```c
 int64_t result = 
-  sto_validate(tx_out, sizeof(tx_out));
+  sto_validate(tx_out, sizeof(./tx_out));
 
 if (tx_len <= 0)
     rollback("Invalid STO.", 12, 1);
@@ -64,7 +64,7 @@ if (tx_len <= 0)
 
 <TabItem label="JavaScript">
 ```javascript
-const result = sto_validate(tx_out)
+const result = sto_validate(./tx_out)
 
 if (result <= 0)
     rollback("Invalid STO.", 1)

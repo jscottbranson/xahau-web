@@ -50,13 +50,13 @@ function state_set(
 <Tabs>
 <TabItem label="C">
 ```c
-#define SBUF(str) (uint32_t)(str), sizeof(str)
-if (state_set(SBUF(vault), SBUF(vault_key)) < 0)
+#define SBUF(./str) (uint32_t)(./str), sizeof(./str)
+if (state_set(SBUF(./vault), SBUF(./vault_key)) < 0)
 		rollback(SBUF("Error: could not set state!"), 1);
 ```
 
 <Aside type="tip">
-To delete the state use `state_set(0, 0, SBUF(key);`.
+To delete the state use `state_set(0, 0, SBUF(./key);`.
 </Aside>
 </TabItem>
 
@@ -81,8 +81,8 @@ To delete the state use `state_set(null, key);`.
 <TabItem label="C">
 | Name       | Type      | Description                                                                                                                                              |
 | ---------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| read_ptr  | uint32_t | <p>Pointer to the data (value) to write into Hook State.<br />If this is <code>0</code> (null) then delete the data at this key. <em>May be null.</em></p> |
-| read_len  | uint32_t | <p>The length of the data.<br />If this is <code>0</code> (null) then delete the data at this key. <em>May be null.</em></p>                               |
+| read_ptr  | uint32_t | <p>Pointer to the data (./value) to write into Hook State.<br />If this is <code>0</code> (./null) then delete the data at this key. <em>May be null.</em></p> |
+| read_len  | uint32_t | <p>The length of the data.<br />If this is <code>0</code> (./null) then delete the data at this key. <em>May be null.</em></p>                               |
 | kread_ptr | uint32_t | A pointer to the Hook State key at which to store the value.                                                                                             |
 | kread_len | uint32_t | The length of the key. (Should always be 32.)                                                                                                            |
 
