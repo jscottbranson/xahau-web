@@ -12,7 +12,7 @@ import { Tabs, TabItem, Aside } from '@astrojs/starlight/components';
 <TabItem label="C">
 * Read a 20 byte Account ID from the `aread_ptr`
 * Read a 32 byte Hook State key from the `kread_ptr`
-* Write the data (./value) at that key at that Account ID to the buffer pointed to by `write_ptr`
+* Write the data (value) at that key at that Account ID to the buffer pointed to by `write_ptr`
 </TabItem>
 
 <TabItem label="JavaScript">
@@ -57,10 +57,10 @@ function state_foreign(
 <Tabs>
 <TabItem label="C">
 ```c
-#define SBUF(./str) (uint32_t)(./str), sizeof(./str)
+#define SBUF(str) (uint32_t)(str), sizeof(str)
 uint8_t ns[32] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 int64_t lookup =
-    state_foreign(SBUF(./blacklist_status), SBUF(./otxn_accid), SBUF(./ns), SBUF(./blacklist_accid));
+    state_foreign(SBUF(blacklist_status), SBUF(otxn_accid), SBUF(ns), SBUF(blacklist_accid));
 if (lookup < 0)
      rollback(SBUF("Error: could not find key on foreign state."), 1);
 ```

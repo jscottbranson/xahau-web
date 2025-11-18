@@ -50,13 +50,13 @@ function state_set(
 <Tabs>
 <TabItem label="C">
 ```c
-#define SBUF(./str) (uint32_t)(./str), sizeof(./str)
-if (state_set(SBUF(./vault), SBUF(./vault_key)) < 0)
+#define SBUF(str) (uint32_t)(str), sizeof(str)
+if (state_set(SBUF(vault), SBUF(vault_key)) < 0)
 		rollback(SBUF("Error: could not set state!"), 1);
 ```
 
 <Aside type="tip">
-To delete the state use `state_set(0, 0, SBUF(./key);`.
+To delete the state use `state_set(0, 0, SBUF(key);`.
 </Aside>
 </TabItem>
 

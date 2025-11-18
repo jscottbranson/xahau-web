@@ -61,8 +61,8 @@ function state_foreign_set(
 <Tabs>
 <TabItem label="C">
 ```c
-#define SBUF(./str) (uint32_t)(./str), sizeof(./str)
-if (state_foreign_set(SBUF(./vault), SBUF(./vault_key), SBUF(./namespace), SBUF(./account)) < 0)
+#define SBUF(str) (uint32_t)(str), sizeof(str)
+if (state_foreign_set(SBUF(vault), SBUF(vault_key), SBUF(namespace), SBUF(account)) < 0)
     rollback(SBUF("Error: could not set foreign state!"), 1);
 ```
 </TabItem>
@@ -83,8 +83,8 @@ if (state_foreign_set(vault, vault_key, namespace, account) < 0)
 <TabItem label="C">
 | Name       | Type      | Description                                                                                                                                              |
 | ---------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| read_ptr  | uint32_t | <p>Pointer to the data (./value) to write into Hook State.<br />If this is <code>0</code> (./null) then delete the data at this key. <em>May be null.</em></p> |
-| read_len  | uint32_t | <p>The length of the data.<br />If this is <code>0</code> (./null) then delete the data at this key. <em>May be null.</em></p>                               |
+| read_ptr  | uint32_t | <p>Pointer to the data (value) to write into Hook State.<br />If this is <code>0</code> (null) then delete the data at this key. <em>May be null.</em></p> |
+| read_len  | uint32_t | <p>The length of the data.<br />If this is <code>0</code> (null) then delete the data at this key. <em>May be null.</em></p>                               |
 | kread_ptr | uint32_t | A pointer to the Hook State key at which to store the value.                                                                                             |
 | kread_len | uint32_t | The length of the key. (Should always be 32.)                                                                                                            |
 | nread_ptr | uint32_t | A pointer to the namespace which the key belongs to.                                                                                                     |
