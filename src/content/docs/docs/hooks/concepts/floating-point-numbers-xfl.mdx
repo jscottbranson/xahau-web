@@ -13,7 +13,7 @@ Most modern CPUs are capable of performing fast floating point operations using 
 This custom format has three basic properties:
 
 1. The format is inherently decimal, expressed as a decimal `mantissa` multipled by `10` to the power of an `exponent`.
-2. All values expressed have 16 significant decimal figures.
+2. All values expressed have 16 significant (decimal) figures.
 3. The range of exponents is `-96` to `+80`
 
 When serialized the mantissa is 54 bits, and the exponent is 8 bits, with a final sign bit bringing the total size of the serialized floating point to 63 bits.

@@ -62,7 +62,7 @@ Each entry in the Hooks Array (in the SetHook Transaction) is called a _HookSet 
 
 ### HookDefinition
 
-Each Corresponding Hook is an object containing a _reference_ pointer to a `HookDefinition` object.
+Each Corresponding Hook is an object containing a _reference_ (pointer) to a `HookDefinition` object.
 
 The HookDefinition object is an unowned reference-counted ledger object that provides for de-duplication of identical web assembly bytecode. Two users using an identical hook will both point to the same HookDefinition.
 

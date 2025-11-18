@@ -208,7 +208,7 @@ Above we can see:
 * Three functions are imported from the Hooks API (`_g`, `accept`, `trace_num`)
 * Two functions are defined by the hook (`cbak`, `hook`)
 * Two functions are exported by the hook (again: `cbak`, `hook`)
-* Some static constant data is recorded in the hook (see `data` at the bottom).
+* Some static (constant) data is recorded in the hook (see `data` at the bottom).
 
 It is very important to note that a Hook _must only_ import functions available to it from the Hooks API and _must_ only export the `cbak` and `hook` functions. In additional all hooks must import `_g` from the Hooks API, which is the `guard` function.
 
