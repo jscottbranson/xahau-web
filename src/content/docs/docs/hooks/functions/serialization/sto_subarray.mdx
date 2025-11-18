@@ -78,8 +78,8 @@ if (memo_lookup < 0)
 else
 {
     // 0th index of the STArray was found and its location is as follows:
-    uint8_t*  memo_ptr = SUB_OFFSET(./memo_lookup) + memos;
-    uint32_t  memo_len = SUB_LENGTH(./memo_lookup);
+    uint8_t*  memo_ptr = SUB_OFFSET(memo_lookup) + memos;
+    uint32_t  memo_len = SUB_LENGTH(memo_lookup);
 }
 ```
 
@@ -102,8 +102,8 @@ if (typeof memo_lookup === 'number')
 else
 {
     // 0th index of the STArray was found and its location is as follows:
-    const memo_start = SUB_OFFSET(./memo_lookup)
-    const memo_len = SUB_LENGTH(./memo_lookup)
+    const memo_start = SUB_OFFSET(memo_lookup)
+    const memo_len = SUB_LENGTH(memo_lookup)
     const memo = memos.slice(memo_start, memo_len)
 }
 ```

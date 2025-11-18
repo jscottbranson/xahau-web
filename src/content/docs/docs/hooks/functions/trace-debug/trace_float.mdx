@@ -29,7 +29,7 @@ int64_t trace_float (
 <Tabs>
 <TabItem label="C">
 ```c
-#define SBUF(./str) (uint32_t)(./str), sizeof(./str)
+#define SBUF(str) (uint32_t)(str), sizeof(str)
 trace_float(SBUF("This is a float"), float_one());
 ```
 </TabItem>

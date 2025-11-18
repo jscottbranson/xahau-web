@@ -54,7 +54,7 @@ uint8_t accid_out[20];
 uint8_t raddr_in[] = "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh";
 
 int64_t bytes_written = 
-    util_accid(accid_out, 20, raddr_in, sizeof(./raddr_in)-1);
+    util_accid(accid_out, 20, raddr_in, sizeof(raddr_in)-1);
 // NB: if specified as a c-string as above, account for the nul char
 ```
 
