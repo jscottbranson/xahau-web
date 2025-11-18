@@ -15,15 +15,7 @@ _(Added by the [Hooks amendment][].)_
     "TransactionType": "Invoke",
     "Account": "rWYkbWkCeg8dP6rXALnjgZSjjLyih5NXm",
     "Blob": "697066733A2F2F4445414442454546",
-    "Destination": "rPT1Sjq2YGrBMTttX4GZHjKu9dyfzbpAYe",
-    "HookParameters": [
-        {
-            "HookParameter": {
-                "HookParameterName": "4C",
-                "HookParameterValue": "01"
-            }
-        }
-    ]
+    "Destination": "rPT1Sjq2YGrBMTttX4GZHjKu9dyfzbpAYe"
 }
 ```
 
@@ -32,11 +24,10 @@ _(Added by the [Hooks amendment][].)_
 | `Account`        | String    | AccountID           | Yes       | The address of the account that is invoking the hook.                                              |
 | `Blob`           | String    | Blob                | No        | A blob of data that is passed to the hook. (512 byte max)                                        |
 | `Destination`   | String    | AccountID           | No        | The address of the account that is the target of the hook.                                         |
-| `HookParameters` | Array     | Array               | No        | An array of hook parameter objects. See [Hook Parameters](/docs/protocol-reference/transactions/transaction-common-fields#hook-parameters) for details. |
 
 ### Special Transaction Cost
 
-The Invoke transaction has a standard transaction cost, plus an additional cost based on the size of the Blob and HookParameters fields.
+The Invoke transaction has a standard transaction cost, plus an additional cost based on the size of the Blob field.
 
 ### Error Cases
 
