@@ -28,7 +28,7 @@ It is important to note that the Hooks API follows the strict rule of _no rewrit
 
 ### Callbacks
 
-As introduced in [Introduction and Terminology]terminology emitted transactions trigger callbacks when they are accepted into a ledger. Due to the decentralised nature of consensus acceptance into a ledger of an emitted transaction is **not a guarantee**, although it is usually all-but guaranteed.
+As introduced in [Introduction and Terminology](/docs/hooks/concepts/terminology) emitted transactions trigger callbacks when they are accepted into a ledger. Due to the decentralised nature of consensus acceptance into a ledger of an emitted transaction is **not a guarantee**, although it is usually all-but guaranteed.
 
 If an emitted transaction expires before it can be accepted into a ledger (for any number of reasons: the ledgers may be full, the fee may be too high for the emitted transaction or the emitted transaction may be somehow invalid) then a _pseudo transaction_ is created in the ledger to clean up the emitted transaction. This pseudo transaction also calls the callback of your hook, with `parameter = 1` to indicate the emitted transaction indeed failed.
 

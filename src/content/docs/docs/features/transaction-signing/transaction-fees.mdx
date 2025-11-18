@@ -6,7 +6,7 @@ description: >-
 ---
 import { Aside } from '@astrojs/starlight/components';
 
-While libraries may deal with fee determination for you, when building your own integrations with the Xahau ledger, you may have to implement dynamic fee determination based on the transaction, source & destination account.
+While libraries may deal with fee determination for you, when building your own integrations with the Xahau Network, you may have to implement dynamic fee determination based on the transaction, source & destination account.
 
 As the sender of a transaction will have to pay for the fees required for the invoked Hooks for the specific transaction type, where Hooks can live both on the source & destination account, you can send a TX Blob (signed with a dummy account) to the `fee` command, after which Xahau will return the specific fees required for the specific transaction.
 

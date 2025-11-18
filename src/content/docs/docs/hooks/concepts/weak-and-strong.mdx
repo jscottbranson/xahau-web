@@ -30,7 +30,7 @@ A **Strong** connection means:
 A **Weak** connection means:
 
 1. The originating transaction **does not** pay for the execution of the TSH Hook Chain.
-2. The TSH pays for the execution of their own Hook Chain through a feature called [Collect Call Hooks]collect-call.
+2. The TSH pays for the execution of their own Hook Chain through a feature called [Collect Call Hooks](/docs/hooks/concepts/collect-call).
 3. The TSH must have set an account flag `asfTshCollect` prior to the execution of the originating transaction.
 4. The TSH **does not** have the right to rollback the whole transaction by calling `rollback()` from their Hook during execution (but can still modify their own Hook state and Emit transactions.)
 

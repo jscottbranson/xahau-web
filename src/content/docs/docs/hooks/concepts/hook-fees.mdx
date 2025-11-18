@@ -8,7 +8,7 @@ SetHook transactions are charged per byte of created webassembly. The rate is 50
 
 ### Hook Execution Fees
 
-When Hooks are [Strongly Executed]weak-and-strong the originating transaction must pay for the Strong Executions in the originating transaction's fee.
+When Hooks are [Strongly Executed](/docs/hooks/concepts/weak-and-strong) the originating transaction must pay for the Strong Executions in the originating transaction's fee.
 
 Hook Execution fees are charged at a rate of 1 drop per web assembly instruction in the worst-case execution of the function `hook` (or `cbak` in the case of a callback). Thus a small Hook with a lot of looping may end up attracting high runtime fees.
 

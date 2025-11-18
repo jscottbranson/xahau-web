@@ -3,7 +3,7 @@ title: Cron
 ---
 [\[Source\]](https://github.com/Xahau/xahaud/blob/dev/src/ripple/protocol/impl/LedgerFormats.cpp)
 
-_(Added by the [CronSet amendment][].)_
+_(Added by the [Cron amendment][].)_
 
 A `Cron` object represents a scheduled Hook execution created by a [CronSet transaction](/docs/protocol-reference/transactions/transaction-types/cronset). The Cron engine automatically inserts pseudo-transactions of type `Cron` into the ledger when scheduled executions are due.
 
@@ -42,8 +42,9 @@ A `Cron` object has the following fields:
 
 The ID of a `Cron` object is the \[SHA-512Half]\[] of the following values, concatenated in order:
 
-* The Cron space key (`0x0072`)
-* The AccountID of the `Owner` field
+* The Cron space key (`0x0076`)
+* The timestamp of the `StartTime` field
+* The randomized AccountID of the `Owner` field
 
 ### Execution Behavior
 

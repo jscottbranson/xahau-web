@@ -37,7 +37,7 @@ The second argument `maxiter` is a promise the developer makes to the ledger tha
 Consider the following for-loop in C:
 
 ```c
-#define GUARDmaxiter _g(__LINE__, maxiter+1)
+#define GUARD(maxiter) _g(__LINE__, (maxiter)+1)
 for (int i = 0; GUARD(3), i < 3; ++i)
 {
   ...
@@ -69,7 +69,7 @@ When using nested loops the `maxiter` argument must reflect the total number of 
 Consider the example below:
 
 ```c
-#define GUARDmaxiter _g(__LINE__, maxiter+1)
+#define GUARD(maxiter) _g(__LINE__, (maxiter)+1)
 for (int i = 0; GUARD(3), i < 3; ++i)
 {
   for (int j = 0; GUARD(15), j < 5; ++j)
