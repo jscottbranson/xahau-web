@@ -15,6 +15,7 @@ For example:
 * In a conventional direct XAH **Payment** transaction the two TSH are the _originating account_ and the _destination account_.
 * In a **SetSignerList** transaction the TSH are the _originating account_ and each account whose address appears in the signer list, where such accounts are active on the ledger.
 * In an **OfferCreate** transaction, other account's offers which are crossed by the originating transaction are all weak TSH and may opt for weak execution.
+* With the **IOUIssuerWeakTSH** amendment, currency issuers have their hooks executed in third-party transactions that touch or mention their currency, if they have opted into weak execution.
 
 Due to the heterogenous nature of transactions on Xahau, TSH come in all shapes and sizes and can be exotic and non-intuitive. This becomes more true as time passes and more transaction types are added to the Ledger.
 
