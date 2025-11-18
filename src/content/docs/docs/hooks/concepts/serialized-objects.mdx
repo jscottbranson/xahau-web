@@ -27,9 +27,9 @@ Where applicable these APIs return an _offset_ and a _length_ encoded into a sin
 At typical scenario in which you would use the STO API is in processing memos on an Originating Transaction. Since you will likely need access to the whole memo anyway, an efficient way to process a set of memos is simply to dump the whole `sfMemos` field into a buffer then index around within it. While it is also possible to use the slot API to do this by slotting the Originating Transaction it would result in additional code and additional copying.
 
 ```c
-#define SUB_OFFSETx ((int32_t)(x >> 32))
-#define SUB_LENGTHx ((int32_t)(x & 0xFFFFFFFFULL))
-#define SBUFstr (uint32_t)str, sizeofstr
+#define SUB_OFFSET(x) ((int32_t)(x >> 32))
+#define SUB_LENGTH(x) ((int32_t)(x & 0xFFFFFFFFULL))
+#define SBUF(str) (uint32_t)(str), sizeof(str)
 
 uint8_t memos[2048];
 int64_t memos_len = otxn_field(SBUFmemos, sfMemos);
