@@ -17,6 +17,7 @@ The `Cron` pseudo-transaction is automatically inserted into the ledger by the C
   "TransactionType": "Cron",
   "Account": "rrrrrrrrrrrrrrrrrrrrrhoLvTp",
   "Fee": "0",
+  "LedgerSequence": 21225473,
   "Sequence": 0,
   "SigningPubKey": "",
   "TxnSignature": "",
@@ -29,6 +30,8 @@ The `Cron` pseudo-transaction is automatically inserted into the ledger by the C
 | Field | JSON Type | \[Internal Type]\[] | Description |
 | ----- | --------- | ------------------- | ----------- |
 | `Owner` | String | AccountID | The account that owns the scheduled Hook execution. This is the account that will be invoked when the cron executes. |
+| `LedgerSequence` | Number    | UInt32              | The \[ledger index]\[] where this pseudo-transaction appears. This distinguishes the pseudo-transaction from other occurrences of the same change. |
+
 
 ### Common Fields
 
