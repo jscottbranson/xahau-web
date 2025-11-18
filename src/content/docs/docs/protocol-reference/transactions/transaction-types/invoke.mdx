@@ -22,7 +22,7 @@ _(Added by the [Hooks amendment][].)_
 | Field            | JSON Type | \[Internal Type]\[] | Required? | Description                                                                                        |
 | ---------------- | --------- | ------------------- | --------- | -------------------------------------------------------------------------------------------------- |
 | `Account`        | String    | AccountID           | Yes       | The address of the account that is invoking the hook.                                              |
-| `Blob`           | String    | Blob                | No        | A blob of data that is passed to the hook. (512 byte max)                                        |
+| `Blob`           | String    | Blob                | No        | A blob of data that is passed to the hook. (128k byte max)                                        |
 | `Destination`   | String    | AccountID           | No        | The address of the account that is the target of the hook.                                         |
 
 ### Special Transaction Cost
@@ -36,5 +36,5 @@ Besides errors that can occur for all transactions, Invoke transactions can resu
 | Error Code      | Description                                                              |
 | --------------- | ------------------------------------------------------------------------ |
 | `temDISABLED`   | Occurs if the Hooks amendment is not enabled.                            |
-| `temMALFORMED`  | Occurs if the Blob field is larger than 512 bytes.                        |
+| `temMALFORMED`  | Occurs if the Blob field is larger than 128k bytes.                        |
 | `terNO_ACCOUNT` | Occurs if the sending account or the destination account does not exist. |

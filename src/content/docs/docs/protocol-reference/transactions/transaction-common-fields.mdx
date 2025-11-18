@@ -96,6 +96,8 @@ The `MemoType` and `MemoFormat` fields should only consist of the following char
 
 The `Memos` field is limited to no more than 1 KB in size (when serialized in binary format).
 
+**Transaction Cost:** Transactions with a `Memos` field incur an additional cost based on the size of the memos. The cost increases proportionally with the total size of all memos in the transaction.
+
 Example of a transaction with a Memos field:
 
 ```json
@@ -175,3 +177,5 @@ The `HookParameters` field is an array of objects that specify the parameters of
 | ------- | --------- | ------------- | --------------------------- |
 | `Name`  | String    | Blob          | The name of the parameter.  |
 | `Value` | String    | Blob          | The value of the parameter. |
+
+**Transaction Cost:** Transactions with a `HookParameters` field incur an additional cost based on the size of the hook parameters. The cost increases proportionally with the total size of all parameters in the transaction.

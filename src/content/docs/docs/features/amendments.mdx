@@ -61,61 +61,123 @@ The following amendments have been implemented or are in the process of being en
 
 #### Feature Amendments
 
-**XahauGenesis** - Enables the genesis account to mint XAH and distribute it via [GenesisMint transactions](/docs/protocol-reference/transactions/transaction-types/genesismint-emitted-txn).
+##### XahauGenesis
 
-**Hooks** - Core amendment enabling Hook smart contract functionality on Xahau. _(Added by the [Hooks amendment][].)_
+Enables the genesis account to mint XAH and distribute it via [GenesisMint transactions](/docs/protocol-reference/transactions/transaction-types/genesismint-emitted-txn).
 
-**HooksUpdate1** - Updates and improvements to the Hooks system.
+##### MultiSign
 
-**Remit** - Enables [Remit transactions](/docs/protocol-reference/transactions/transaction-types/remit) that allow sending multiple payment types, minting URITokens, transferring URITokens, and activating accounts in a single transaction.
+Enables multi-signature functionality, allowing accounts to require multiple signatures for transactions. This amendment introduces [SignerListSet transactions](/docs/protocol-reference/transactions/transaction-types/signerlistset) and [SignerList ledger objects](/docs/protocol-reference/ledger-data/ledger-objects-types/signers-list) to support multi-signing.
 
-**ZeroB2M** - Enables Burn2Mint operations with zero amounts. Fixes issues related to Burn2Mint operations when dealing with zero amounts.
+##### DepositAuth
 
-**Remarks** - Enables [SetRemarks transactions](/docs/protocol-reference/transactions/transaction-types/setremarks) that allow accounts to attach, update, or remove arbitrary remarks (key-value pairs) on supported ledger objects.
+Enables deposit authorization functionality, allowing accounts to require preauthorization before receiving payments. This amendment introduces [DepositPreauth transactions](/docs/protocol-reference/transactions/transaction-types/depositpreauth) and [DepositPreauth ledger objects](/docs/protocol-reference/ledger-data/ledger-objects-types/deposit-pre-auth) to manage preauthorizations.
 
-**Touch** - Enables Touch transactions for account activation and interaction.
+##### Hooks
 
-**HookCanEmit** - Adds the `HookCanEmit` field to [HookDefinition](/docs/protocol-reference/ledger-data/ledger-objects-types/hook-definition) objects, specifying which transaction types a hook is allowed to emit.
+Core amendment enabling Hook smart contract functionality on Xahau. _(Added by the [Hooks amendment][].)_
 
-**Clawback** - Enables [Clawback transactions](/docs/protocol-reference/transactions/transaction-types/clawback) that allow issuers to revoke tokens that were previously issued by their account.
+##### HooksUpdate1
 
-**DeepFreeze** - Enables deep freeze functionality for trustlines and assets.
+Updates and improvements to the Hooks system.
 
-**IOUIssuerWeakTSH** - Makes IOU issuers weak transactional stakeholders (TSH) in certain transaction types. See [Weak and Strong](/docs/hooks/concepts/weak-and-strong) for details.
+##### Remit
 
-**Cron** - Enables scheduled Hook execution via [CronSet transactions](/docs/protocol-reference/transactions/transaction-types/cronset) and [Cron ledger objects](/docs/protocol-reference/ledger-data/ledger-objects-types/cron). _(Added by the [CronSet amendment][].)_
+Enables [Remit transactions](/docs/protocol-reference/transactions/transaction-types/remit) that allow sending multiple payment types, minting URITokens, transferring URITokens, and activating accounts in a single transaction.
 
-**ExtendedHookState** - Extends Hook state management capabilities, including the `HookStaleScale` field for [AccountRoot](/docs/protocol-reference/ledger-data/ledger-objects-types/accountroot) objects to control when Hook state entries become stale. _(Added by the [ExtendedHookState amendment][].)_
+##### ZeroB2M
+
+Enables Burn2Mint operations with zero amounts. Fixes issues related to Burn2Mint operations when dealing with zero amounts.
+
+##### Remarks
+
+Enables [SetRemarks transactions](/docs/protocol-reference/transactions/transaction-types/setremarks) that allow accounts to attach, update, or remove arbitrary remarks (key-value pairs) on supported ledger objects.
+
+##### Touch
+
+Enables Touch transactions for account activation and interaction.
+
+##### HookCanEmit
+
+Adds the `HookCanEmit` field to [HookDefinition](/docs/protocol-reference/ledger-data/ledger-objects-types/hook-definition) objects, specifying which transaction types a hook is allowed to emit.
+
+##### Clawback
+
+Enables [Clawback transactions](/docs/protocol-reference/transactions/transaction-types/clawback) that allow issuers to revoke tokens that were previously issued by their account.
+
+##### DeepFreeze
+
+Enables deep freeze functionality for trustlines and assets.
+
+##### IOUIssuerWeakTSH
+
+Makes IOU issuers weak transactional stakeholders (TSH) in certain transaction types. See [Weak and Strong](/docs/hooks/concepts/weak-and-strong) for details.
+
+##### Cron
+
+Enables scheduled Hook execution via [CronSet transactions](/docs/protocol-reference/transactions/transaction-types/cronset) and [Cron ledger objects](/docs/protocol-reference/ledger-data/ledger-objects-types/cron). _(Added by the [CronSet amendment][].)_
+
+##### ExtendedHookState
+
+Extends Hook state management capabilities, including the `HookStaleScale` field for [AccountRoot](/docs/protocol-reference/ledger-data/ledger-objects-types/accountroot) objects to control when Hook state entries become stale. _(Added by the [ExtendedHookState amendment][].)_
 
 #### Bug Fix Amendments
 
-**fixXahauV1** - Fixes issues in the Xahau protocol implementation. _(Introduced in 2024.9.11-release+985)_
+##### fixXahauV1
 
-**fixXahauV2** - Additional fixes for Xahau protocol implementation issues.
+Fixes issues in the Xahau protocol implementation. _(Introduced in 2024.9.11-release+985)_
 
-**fixXahauV3** - Further fixes for Xahau protocol implementation issues.
+##### fixXahauV2
 
-**fixNSDelete** - Fixes issues related to namespace deletion operations in Hooks.
+Additional fixes for Xahau protocol implementation issues.
 
-**fix240819** - Bug fix amendment from August 19, 2024.
+##### fixXahauV3
 
-**fixPageCap** - Fixes issues related to page capacity limits.
+Further fixes for Xahau protocol implementation issues.
 
-**fix240911** - Bug fix amendment from September 11, 2024.
+##### fixNSDelete
 
-**fixFloatDivide** - Fixes issues with floating point division operations in Hooks. This amendment ensures proper handling of division by zero and edge cases in the `float_divide` function. See [float_divide](/docs/hooks/functions/float/float_divide) for details.
+Fixes issues related to namespace deletion operations in Hooks.
 
-**fixReduceImport** - Fixes issues related to Import transaction processing.
+##### fix240819
 
-**fix20250131** - Bug fix amendment from January 31, 2025.
+Bug fix amendment from August 19, 2024.
 
-**fixRewardClaimFlags** - Fixes issues with reward claim transaction flags.
+##### fixPageCap
 
-**fixProvisionalDoubleThreading** - Fixes issues with provisional double threading in transaction processing.
+Fixes issues related to page capacity limits.
 
-**fixInvalidTxFlags** - Fixes issues with invalid transaction flags.
+##### fix240911
 
-**fixCronStacking** - Fixes issues with Cron transaction stacking behavior.
+Bug fix amendment from September 11, 2024.
+
+##### fixFloatDivide
+
+Fixes issues with floating point division operations in Hooks. This amendment ensures proper handling of division by zero and edge cases in the `float_divide` function. See [float_divide](/docs/hooks/functions/float/float_divide) for details.
+
+##### fixReduceImport
+
+Fixes issues related to Import transaction processing.
+
+##### fix20250131
+
+Bug fix amendment from January 31, 2025.
+
+##### fixRewardClaimFlags
+
+Fixes issues with reward claim transaction flags.
+
+##### fixProvisionalDoubleThreading
+
+Fixes issues with provisional double threading in transaction processing.
+
+##### fixInvalidTxFlags
+
+Fixes issues with invalid transaction flags.
+
+##### fixCronStacking
+
+Fixes issues with Cron transaction stacking behavior.
 
 ### Amendment Status
 
