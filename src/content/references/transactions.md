@@ -5,6 +5,7 @@ CheckCash
 CheckCreate
 ClaimReward
 Clawback
+CronSet
 DepositPreauth
 EscrowCancel
 EscrowCreate
@@ -28,7 +29,6 @@ SetHook
 SetRegularKey
 SetRemarks
 SignerListSet
-SpinalTap
 TicketCreate
 TrustSet
 URITokenBurn

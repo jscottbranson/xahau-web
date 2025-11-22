@@ -22,7 +22,7 @@ protocol = ws
 port = 16006
 ip = ::
 limit = 150 # Maximum number of clients allowed to connect to a given port. "0" is unlimited.
-admin = [ 10.10.10.5, 10.11.11.0/24 ] # IP addresses or subnets allowed to submit [admin](../../features/http-websocket-apis/admin-api-methods) requests.
+admin = [ 10.10.10.5, 10.11.11.0/24 ] # IP addresses or subnets allowed to submit [admin](/docs/features/http-websocket-apis/admin-api-methods) requests.
 secure_gateway = [ 10.10.10.20, 10.15.15.0/24 ] # Addresses allowed to send X-Forwarded-For and X-User headers.
 
 [port_rpc_public]
@@ -32,3 +32,24 @@ ip = ::
 ```
 <br></br>
 Additional configuration options for websocket and RPC connections are available in the [Example Configuration File](https://github.com/Xahau/xahaud/blob/dev/cfg/rippled-example.cfg).
+
+## UDP RPC
+
+xahaud supports UDP-based RPC for high-performance, low-latency queries. UDP RPC is useful for applications that need to make many rapid queries and can tolerate occasional packet loss.
+
+To enable UDP RPC, add a UDP port definition in your `xahaud.cfg`:
+
+```
+[server]
+port_udp_rpc
+
+[port_udp_rpc]
+protocol = http
+port = 16008
+ip = ::
+transport = udp
+```
+
+UDP RPC requests use the same JSON-RPC format as HTTP RPC, but are sent as UDP datagrams. Responses are also sent via UDP. Since UDP is connectionless, each request must include all necessary context, and clients should handle potential packet loss by implementing retry logic.
+
+**Note:** UDP RPC is best suited for read-only operations. Transaction submission should use WebSocket or HTTP RPC for reliability.

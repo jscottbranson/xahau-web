@@ -27,7 +27,7 @@ Administrators operating xahaud validators can benefit from clustering, as the c
 
 Server operators should not cluster their servers with servers outside of their own control. Likewise, clustered servers should have low latency connections, ideally being located in the same data center.
 
-Generating cluster seeds (public/private keys) is done via the `validation_create` [API method](../../features/http-websocket-apis/admin-api-methods). While the method name includes the term 'validation', this method is not used to [create the keys](../enabling-validation) used to sign validation messages. Instead, it is used to create keys to identify any xahaud server, validating or non-validating.
+Generating cluster seeds (public/private keys) is done via the `validation_create` [API method](/docs/features/http-websocket-apis/admin-api-methods). While the method name includes the term 'validation', this method is not used to [create the keys](/docs/infrastructure/enabling-validation) used to sign validation messages. Instead, it is used to create keys to identify any xahaud server, validating or non-validating.
 
 To create a cluster:
 1. On each xahaud instance that will be included in the cluster, generate a public key and seed: `./xahaud validation_create`
@@ -37,7 +37,7 @@ To create a cluster:
     * `[cluster_nodes]` - The output from the `validation_public_key` field of the `validation_create` command. This is a public key, and it must be installed on peer servers, not the server on which it was generated.
 3. Restart xahaud on each server in the cluster: `systemctl restart xahaud`
 4. Backup each server's `xahaud.cfg`.
-5. Verify connectivity among clustered peers via the [peers](../../features/http-websocket-apis/admin-api-methods) API method: `./xahaud peers`
+5. Verify connectivity among clustered peers via the [peers](/docs/features/http-websocket-apis/admin-api-methods) API method: `./xahaud peers`
 
 The cluster section of a `xahaud.cfg` file might look like this:
 ```
