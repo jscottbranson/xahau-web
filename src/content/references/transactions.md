@@ -13,11 +13,11 @@ EscrowFinish
 GenesisMint
 Import
 Invoke
-NFTokenAcceptOffer
-NFTokenBurn
-NFTokenCancelOffer
-NFTokenCreateOffer
-NFTokenMint
+// NFTokenAcceptOffer
+// NFTokenBurn
+// NFTokenCancelOffer
+// NFTokenCreateOffer
+// NFTokenMint
 OfferCancel
 OfferCreate
 Payment
