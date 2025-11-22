@@ -36,7 +36,7 @@ A `Cron` object has the following fields:
 | `DelaySeconds`      | Number    | UInt32              | Yes       | Time interval in seconds between each execution. Maximum of 31,536,000 seconds (365 days).                                                                                                                                                                                    |
 | `PreviousTxnID`     | String    | Hash256             | Yes       | The identifying hash of the transaction that most recently modified this object.                                                                                                                                                                                               |
 | `PreviousTxnLgrSeq` | Number    | UInt32              | Yes       | The \[index of the ledger]\[Ledger Index] that contains the transaction that most recently modified this object.                                                                                                                                                             |
-| `LedgerEntryType`   | String    | UInt16              | Yes       | The value `0x0072`, mapped to the string `Cron`, indicates that this object is a Cron object.                                                                                                                                                                                 |
+| `LedgerEntryType`   | String    | UInt16              | Yes       | The value `0x0061`, mapped to the string `Cron`, indicates that this object is a Cron object.                                                                                                                                                                                 |
 
 ### Cron ID Format
 
