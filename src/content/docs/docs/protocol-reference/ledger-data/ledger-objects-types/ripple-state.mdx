@@ -84,6 +84,8 @@ RippleState objects can have the following flag values:
 | `lsfHighNoRipple` | `0x00200000` | 2097152       | `tfSetNoRipple`             | The high account has disabled rippling from this trust line.                                        |
 | `lsfLowFreeze`    | `0x00400000` | 4194304       | `tfSetFreeze`               | The low account has frozen the trust line, preventing the high account from transferring the asset. |
 | `lsfHighFreeze`   | `0x00800000` | 8388608       | `tfSetFreeze`               | The high account has frozen the trust line, preventing the low account from transferring the asset. |
+| `lsfLowDeepFreeze` | `0x02000000` | 33554432      | `tfSetDeepFreeze`           | The low account has deep-frozen the trust line, preventing the high account from sending and receiving the asset. _(Requires the \[DeepFreeze amendment]\[])_ |
+| `lsfHighDeepFreeze` | `0x04000000` | 67108864      | `tfSetDeepFreeze`           | The high account has deep-frozen the trust line, preventing the low account from sending and receiving the asset. _(Requires the \[DeepFreeze amendment]\[])_ |
 
 ### Contributing to the Owner Reserve
 

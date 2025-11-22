@@ -1,8 +1,8 @@
 ---
 title: OfferCreate
 description: >-
-  An OfferCreate transaction places an [Offer](offers.html) in the
-  [decentralized exchange](decentralized-exchange.html).
+  An OfferCreate transaction places an Offer in the
+  decentralized exchange.
 ---
 \[[Source](https://github.com/Xahau/xahaud/blob/dev/src/ripple/app/tx/impl/URIToken.cpp)]
 
@@ -32,8 +32,8 @@ description: >-
 | `Expiration`    | Number                                                                                                                             | UInt32              | _(Optional)_ Time after which the Offer is no longer active, in \[seconds since the Ripple Epoch]\[]. |
 | `OfferSequence` | Number                                                                                                                             | UInt32              | _(Optional)_ An Offer to delete first, specified in the same way as \[OfferCancel]\[].                |
 | `OfferID`       | String                                                                                                                             | Hash256             | _(Optional)_ The ID of the Offer ledger object to cancel, as a 64-character hexadecimal string.       |
-| `TakerGets`     | [Currency Amount](https://docs.xahau.network/technical/protocol-reference/data-types/currency-formats#specifying-currency-amounts) | Amount              | The amount and type of currency being sold.                                                           |
-| `TakerPays`     | [Currency Amount](https://docs.xahau.network/technical/protocol-reference/data-types/currency-formats#specifying-currency-amounts) | Amount              | The amount and type of currency being bought.                                                         |
+| `TakerGets`     | [Currency Amount](/docs/protocol-reference/data-types/currency-formats/#specifying-currency-amounts) | Amount              | The amount and type of currency being sold.                                                           |
+| `TakerPays`     | [Currency Amount](/docs/protocol-reference/data-types/currency-formats/#specifying-currency-amounts) | Amount              | The amount and type of currency being bought.                                                         |
 
 ### OfferCreate Flags
 

@@ -167,7 +167,7 @@ It is possible for multiple wallets to issue currencies with the same currency c
 ## Validator Domain Verification
 Hosting the `xahau.toml` file enables domain owners to claim ownership of a validator. However, it is critical that the validator also acknowledge this ownership, so third parties can reliably trust network operators. Since validators form the backbone of forward progress on the Xahau Network, it is important that operators appropriately secure their private validation keys.
 
-If you are not familiar with the Validator Keys Tool, see the page on [Enabling Validation in xahaud](../enabling-validation).
+If you are not familiar with the Validator Keys Tool, see the page on [Enabling Validation in xahaud](/docs/infrastructure/enabling-validation).
 
 Users who have already complete the steps on the Enabling Validation page do not need to repeat them. Simply paste the `attestation = ""` field into the TOML file and ensure the correct `[validator_token]` is installed in the `xahaud.cfg`.
 
@@ -176,4 +176,4 @@ Users who did not configure a domain when they initially generated a validation 
 ## Wallet Address Verification
 Consistent with validator domain verification, verifying ownership of a wallet address on the Xahau Network requires two components: A TOML file served over a TLS encrypted connection (with a properly chained certificate) from the domain claiming ownership and a transaction from the wallet address verifying the ownership claim. To claim ownership of a wallet address:
 1. Include the address as an `[[accounts]]` section in the TOML file.
-2. Submit an [AccountSet transaction](../../protocol-reference/transactions/transaction-types/accountset) with the `Domain` field specified.
+2. Submit an [AccountSet transaction](/docs/protocol-reference/transactions/transaction-types/accountset) with the `Domain` field specified.
