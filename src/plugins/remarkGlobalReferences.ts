@@ -26,6 +26,7 @@ const parseRules: {
       const lines = content.split('\n')
       const result: { label: string; url: string }[] = []
       for (const line of lines) {
+        if (line.startsWith('//')) continue
         if (line.length > 0) {
           const url = `/docs/protocol-reference/transactions/transaction-types/${line.toLowerCase()}`
           result.push({ label: `${line}`, url })
