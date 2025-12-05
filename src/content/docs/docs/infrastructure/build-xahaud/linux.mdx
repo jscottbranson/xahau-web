@@ -40,7 +40,7 @@ The primary branch used for xahaud development is `dev`. Users who prefer to bui
 `git checkout [branch name]`
 
 ### Prepare the build directory
-Create a directory inside the xahaud repository to house the files generated during the build process:
+Create a directory inside the xahaud repository to store the files generated during the build process:
 
 `mkdir [/path/to/xahaud_github_repo]/.build`
 
@@ -51,7 +51,7 @@ Create a directory inside the xahaud repository to house the files generated dur
 
 3. Activate the virtual environment: `source ./env/bin/activate`
 
-4. Update PIP so the latest versions of software are available: `pip install --upgrade pip`
+4. Update pip so the latest software versions are available: `pip install --upgrade pip`
 
 5. Install Conan2: `pip install conan`
 
@@ -83,7 +83,7 @@ conan install .. --output-folder . --build missing --settings build_type=["Relea
 
 2. If needed, additional options can be passed to Conan2:
 ```
-conan install .. --output-folder . --build missing --settings build_type=["Release" or "Debug"] -s compiler=gcc -s compiler.version=12 -s compiler.libcxx=libstdc++11 -s compiler.cppstd=20 -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose se -g VirtualBuildEnv -g VirtualRunEnv
+conan install .. --output-folder . --build missing --settings build_type=["Release" or "Debug"] -s compiler=gcc -s compiler.version=12 -s compiler.libcxx=libstdc++11 -s compiler.cppstd=20 -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose -g VirtualBuildEnv -g VirtualRunEnv
 ```
 
 3. After Conan2 is complete, run cmake. Do not specify "DCMAKE_BUILD_TYPE" if building from multiple configurations (both "Release" and "Debug").
@@ -95,7 +95,7 @@ cmake -DCMAKE_POLICY_DEFAULT_CMP0091=NEW \
 	..
 ```
 
-4. Finally, use cmake to complete the build process: `cmake --build . ['--config Release' or '--config Debug' if multiple types were generated]`.
+4. Finally, use cmake to complete the build process: `cmake --build . [add '--config Release' or '--config Debug' if multiple build types were generated]`.
 
 The output file is named `rippled` and is located in the `.build` directory. If multiple build types (both "Release" and "Debug") were specified, the final product will be located at: `.build/["Release" or "Debug"]/rippled` Rename the file to 'xahaud', and move it to it's final location (being careful not to overwrite the 'xahaud' GitHub repository). Mark the final file as executable, and download a configuration file and validators file as needed.
 
@@ -110,7 +110,7 @@ Maintaining different build environments (Python3 venvs, Conan2  profiles, etc.)
 The following subsections address the basics of configuring amnesiac and container based build environments.
 
 ### Containers
-It is possible to use [Docker](https://docker.com) or other containerized environments to contain the build process, thereby keeping the underlying system clean. Using containers has the additional advantage of easily testing builds in multiple environments. For example, containers based on RHEL, Debian, and other distributions can be configured to use diverse compiler versions. Further, features like Multistage Dockerfiles enable users to build then deploy (run) xahaud using a single script. Users can also take advantage of Docker's `buildx` plugin, which provides an easy means to building for multiple platforms concurrently.
+It is possible to use [Docker](https://docker.com) or other containerized environments to contain the build process, thereby keeping the underlying system clean. Using containers has the additional advantage of easily testing builds in multiple environments. For example, containers based on RHEL, Debian, and other distributions can be configured to use diverse compiler versions. Further, features like Multistage Dockerfiles enable users to build then deploy (run) xahaud using a single Dockerfile. Users can also take advantage of Docker's `buildx` plugin, which provides an easy means to building for multiple platforms concurrently.
 
 #### Install Docker
 ```
@@ -253,7 +253,7 @@ Installing software updates or performing other tasks that should persist will r
 
 To disable amnesia on Debian based systems:
 1. Press `e` to edit the Ubuntu boot entry.
-2. On the line starting with "linux..." edit or add `overlayroot=` option to read `overlayroot=disabled`. This will allow a one-time boot into a system with a memory.
+2. On the line starting with "linux..." edit or add `overlayroot=` option to read `overlayroot=disabled`. This will allow a one-time boot into a system with persistent storage.
 3. To permanently disable amnesia, run `sudo sed -i '/^overlayroot=/c\overlayroot="disabled"' /etc/overlayroot.conf` to change `overlayroot="disabled"` in the /etc/overlayroot.conf file. Then update initramfs `sudo update-initramfs -u`.
 
 To disable amnesia on RHEL 9/10 based systems:
