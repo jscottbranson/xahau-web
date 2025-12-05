@@ -6,7 +6,7 @@ import { Aside } from '@astrojs/starlight/components';
 
 These instructions are designed to work for Debian (i.e., Ubuntu 22.04 and 24.04) and Red Hat Enterprise Linux (9 or 10) based distributions. Many instructions overlap, though differences across operating systems are noted throughout. Efforts are made to test builds across operating systems, however, Ubuntu is the most tested and supported environment for building and running xahaud.
 
-For additional instructions, refer to the [BUILD.md](https://github.com/Xahau/xahaud/blob/dev/BUILD.md) in the Xahau/xahaud GitHub Repository.
+For additional instructions, refer to the [BUILD.md](https://github.com/Xahau/xahaud/blob/dev/BUILD.md) file in the Xahau/xahaud GitHub Repository.
 
 <Aside type="caution">
 Creating an environment to build xahaud can cause permanent system damage. The [Build Environments](#build-environments-for-beginners) section of this page contains techniques for isolating your build environment from your underlying operating system. Undertake system changes at your own risk.
@@ -122,7 +122,7 @@ sudo dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker
 sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 
-After installing, it is possible to add your local user account to Docker, so interacting with Docker does not require root/sudo access: `sudo usermod -aG docker $USER`.
+After installing, it is possible to add your local user account to Docker, so interacting with Docker does not require root/sudo access: `sudo usermod -aG docker $USER`. For changes to take effect, you must logout and back in to your user session.
 
 #### Example Dockerfile
 For ease and consistency, it is possible to use Dockerfile scripts (e.g., buildx, multistage, docker-compose v2, etc.) to configure the build environment and to complete the build process.
@@ -162,7 +162,7 @@ RUN git clone ${REPO_URL} xahaud && \
     git checkout ${REPO_BRANCH} && \
     mkdir -p .build
 
-# ~~~~ Configure Python3 virtual environment and install Conan2 ~~~~
+# ~~~~ Create a Python3 virtual environment and install Conan2 ~~~~
 RUN python3 -m venv ${BASE_DIR}/env && \
     . ${BASE_DIR}/env/bin/activate && \
     pip install --upgrade pip && \
@@ -210,7 +210,7 @@ RUN . ${BASE_DIR}/env/bin/activate && \
 
 Configuring a Linux system to completely forget all the software that was installed or modified during runtime provides an easy path to recover from build errors. Typically, an amnesiac operating system is run as a virtual machine with a very large amount of memory available, as all changes are written to memory instead of disk. Building xahaud can take over 20 GB of memory, if all software dependencies/requirements are installed in a memory based overlay file system. It is typically possible to install most of the software dependencies (using `apt` or `dnf`) prior to making the system amnesiac, thereby reducing required memory. 
 
-To configure an amnesic operating system using Debian based systems:
+#### Configure an amnesic operating system using a Debian based virtual machine
 ```
 # Install the 'overlayroot' software package
 apt update && apt install overlayroot
@@ -229,7 +229,7 @@ When resizing memory, ensure some memory remains available for system use. The f
 sudo mount -o remount,size=30G /media/root-rw
 ```
 
-To configure an amnesic operating system using RHEL 9/10 based systems:
+#### Configure an amnesic operating system using a RHEL based virtual machine
 ```
 # Ensure dracut is installed
 dnf install dracut -y
@@ -244,6 +244,13 @@ dracut -f
 # Update the boot image to use a systemd volatile overlay
 grubby --update-kernel=ALL --args="systemd.volatile=overlay"
 ```
+
+#### Building xahaud
+Once an amnesiac virtual machine with sufficient memory has been created, it is possible to build xahaud following the instructions [above on this page](#_top).
+
+#### Disabling amnesia
+Installing software updates or performing other tasks that should persist will require users to disable amnesia. This can be done temporarily or permanently. Some software updates require additional configuration after a reboot, so it recommended to disable amnesia a second time when rebooting following a software update.
+
 To disable amnesia on Debian based systems:
 1. Press `e` to edit the Ubuntu boot entry.
 2. On the line starting with "linux..." edit or add `overlayroot=` option to read `overlayroot=disabled`. This will allow a one-time boot into a system with a memory.
