@@ -4,12 +4,12 @@ title: Linux Build Instructions
 import { Aside } from '@astrojs/starlight/components';
 
 
-These instructions are designed to work for Debian (i.e., Ubuntu 22.04 and 24.04) and Red Hat Enterprise Linux (9 or 10) based distributions. While some instructions overlap, differences across operating systems are noted. While efforts are made to test builds across operating systems, Ubuntu is the most tested and supported environment for building and running xahaud.
+These instructions are designed to work for Debian (i.e., Ubuntu 22.04 and 24.04) and Red Hat Enterprise Linux (9 or 10) based distributions. Many instructions overlap, though differences across operating systems are noted throughout. Efforts are made to test builds across operating systems, however, Ubuntu is the most tested and supported environment for building and running xahaud.
 
-For additional instructions, refer to the [BUILD.md](https://github.com/Xahau/xahaud/blob/dev/BUILD.md) in the Xahau/xahaud Github Repository.
+For additional instructions, refer to the [BUILD.md](https://github.com/Xahau/xahaud/blob/dev/BUILD.md) in the Xahau/xahaud GitHub Repository.
 
 <Aside type="caution">
-Creating an environment to build xahaud can cause permanent system damage. The [Build Environments](#build-environments) section of this page contains techniques for isolating your build environment from your underlying operating system. Undertake system changes at your own risk.
+Creating an environment to build xahaud can cause permanent system damage. The [Build Environments](#build-environments-for-beginners) section of this page contains techniques for isolating your build environment from your underlying operating system. Undertake system changes at your own risk.
 </Aside>
 
 ## Install Dependencies
@@ -103,18 +103,112 @@ The output file is named `rippled` and is located in the `.build` directory. If 
 To run unit tests: `./xahaud --unittest`
 
 
-## Build Environments
+## Build Environments for Beginners
 
-Maintaining different build environments (Python3 venvs, Conan2  profiles, etc.) is a complex task, even more so as underlying operating systems often rely on or expect specific versions of software. Thus, those new to the build process may benefit from using containers or writing bash scripts that are used on machines that reset their state at reboot.
+Maintaining different build environments (Python3 venvs, Conan2  profiles, etc.) is a complex task, even more so as underlying operating systems often rely on or expect specific versions of software. Thus, those new to the build process may benefit from using containers or writing bash scripts that are used on virtual machines that reset their state at reboot.
 
-The following subsections address configuring build environments with the required software dependencies.
+The following subsections address the basics of configuring amnesiac and container based build environments.
 
-### Containerized Environments
-Will go here...
+### Containers
+It is possible to use [Docker](https://docker.com) or other containerized environments to contain the build process, thereby keeping the underlying system clean. Using containers has the additional advantage of easily testing builds in multiple environments. For example, containers based on RHEL, Debian, and other distributions can be configured to use diverse compiler versions. Further, features like Multistage Dockerfiles enable users to build then deploy (run) xahaud using a single script. Users can also take advantage of Docker's `buildx` plugin, which provides an easy means to building for multiple platforms concurrently.
 
-### Amnesiac Operating System Environments
+#### Install Docker
+```
+# Debian/Ubuntu:
+sudo apt update && sudo apt install docker.io docker-compose-v2 docker-buildx
 
-Configuring a Linux system to completely forget all the software that was installed or modified during runtime provides an easy path to recover from build errors. Typically, an amnesiac operating system is run as a virtual machine with a very large amount of memory available, as all changes are written to memory instead of disk. Building xahaud can take over 20 GB of memory, if all software dependencies/requirements are installed in a memory based overlay file system. It is typically possible to install most of the software dependencies (using `apt` or `dnf`) prior to making the system amnesiac, thereby reducing required memory.
+# RHEL (requires adding the docker.com repository):
+sudo dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
+sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+
+After installing, it is possible to add your local user account to Docker, so interacting with Docker does not require root/sudo access: `sudo usermod -aG docker $USER`.
+
+#### Example Dockerfile
+For ease and consistency, it is possible to use Dockerfile scripts (e.g., buildx, multistage, docker-compose v2, etc.) to configure the build environment and to complete the build process.
+
+For example, xahaud can be compiled inside an Ubuntu 24.04 Docker container using a Dockerfile to describe the container, download and install dependencies, and build the final product. Note that the following code follows the same steps outlined earlier on this page for the general Linux build process, the steps are simply applied inside an isolated container. It is possible to add additional variables or adjust the following code to customize the build process.
+
+```
+# ~~~~ Arguments used to customize the container and build ~~~~
+ARG BASE_IMAGE=ubuntu:24.04                     # Operating system for the build container
+ARG REPO_URL=https://github.com/Xahau/xahaud    # URL for the repository with the code to be compiled
+ARG REPO_BRANCH=dev                             # Repository branch that will be used for the build 
+ARG RELEASE_TYPE=Release                        # Set to "Release" or "Debug"
+
+# ~~~~ Initiate a container ~~~~
+FROM --platform=$BUILDPLATFORM ${BASE_IMAGE} AS builder
+
+ARG REPO_URL
+ARG REPO_BRANCH
+ARG RELEASE_TYPE
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    BASE_DIR=/build \
+    CONAN2_DIR=/root/.conan2
+
+# ~~~~ Install build dependencies ~~~~
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+      git curl wget ca-certificates \
+      python3 python3-pip python3-venv \
+      build-essential cmake ninja-build \
+      libc6-dev libssl-dev libsqlite3-dev pkg-config \
+ && rm -rf /var/lib/apt/lists/*
+
+# ~~~~ Clone the xahaud GitHub repository and create a '.build' directory ~~~~
+RUN git clone ${REPO_URL} xahaud && \
+    cd xahaud && \
+    git checkout ${REPO_BRANCH} && \
+    mkdir -p .build
+
+# ~~~~ Configure Python3 virtual environment and install Conan2 ~~~~
+RUN python3 -m venv ${BASE_DIR}/env && \
+    . ${BASE_DIR}/env/bin/activate && \
+    pip install --upgrade pip && \
+    pip install conan
+
+# ~~~~ Configure Conan2 profile (the following assumes the user wishes to use cppstd version 20) ~~~~
+RUN . ${BASE_DIR}/env/bin/activate && \
+    conan profile detect && \
+    CONAN2_PROFILE="${CONAN2_DIR}/profiles/default" && \
+    if grep -q '^compiler\.cppstd=' "$CONAN2_PROFILE"; then \
+        sed -i 's/^compiler\.cppstd=.*/compiler.cppstd=20/' "$CONAN2_PROFILE"; \
+    else \
+        echo 'compiler.cppstd=20' >> "$CONAN2_PROFILE"; \
+    fi && \
+    if ! grep -Fqx "[conf]" "$CONAN2_PROFILE"; then \
+        printf "[conf]\ntools.build:cxxflags=['-Wno-restrict']\n" >> "$CONAN2_PROFILE"; \
+    fi
+
+# ~~~~ Export Conan recipies for snappy, soci, and wasmedge ~~~~
+RUN . ${BASE_DIR}/env/bin/activate && \
+    cd ${BASE_DIR}/xahaud && \
+    conan export external/snappy --version 1.1.10 --user xahaud --channel stable && \
+    conan export external/soci --version 4.0.3 --user xahaud --channel stable && \
+    conan export external/wasmedge --version 0.11.2 --user xahaud --channel stable
+
+# ~~~~ Build xahaud ~~~~
+RUN . ${BASE_DIR}/env/bin/activate && \
+    cd ${BASE_DIR}/xahaud/.build && \
+    conan install .. --output-folder . \
+        --settings build_type=${RELEASE_TYPE} \
+        --build missing \
+        -c tools.build:verbosity=verbose \
+        -c tools.compilation:verbosity=verbose \
+        -g VirtualBuildEnv \
+        -g VirtualRunEnv && \
+    cmake -DCMAKE_POLICY_DEFAULT_CMP0091=NEW \
+        -DCMAKE_BUILD_TYPE=${RELEASE_TYPE} \
+        -DCMAKE_TOOLCHAIN_FILE:FILEPATH=build/generators/conan_toolchain.cmake \
+        .. && \
+    cmake --build . --parallel $(nproc)
+
+```
+
+### Amnesiac Operating Systems
+
+Configuring a Linux system to completely forget all the software that was installed or modified during runtime provides an easy path to recover from build errors. Typically, an amnesiac operating system is run as a virtual machine with a very large amount of memory available, as all changes are written to memory instead of disk. Building xahaud can take over 20 GB of memory, if all software dependencies/requirements are installed in a memory based overlay file system. It is typically possible to install most of the software dependencies (using `apt` or `dnf`) prior to making the system amnesiac, thereby reducing required memory. 
 
 To configure an amnesic operating system using Debian based systems:
 ```
