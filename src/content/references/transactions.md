@@ -5,6 +5,7 @@ CheckCash
 CheckCreate
 ClaimReward
 Clawback
+CronSet
 DepositPreauth
 EscrowCancel
 EscrowCreate
@@ -12,11 +13,11 @@ EscrowFinish
 GenesisMint
 Import
 Invoke
-NFTokenAcceptOffer
-NFTokenBurn
-NFTokenCancelOffer
-NFTokenCreateOffer
-NFTokenMint
+// NFTokenAcceptOffer
+// NFTokenBurn
+// NFTokenCancelOffer
+// NFTokenCreateOffer
+// NFTokenMint
 OfferCancel
 OfferCreate
 Payment
@@ -28,7 +29,6 @@ SetHook
 SetRegularKey
 SetRemarks
 SignerListSet
-SpinalTap
 TicketCreate
 TrustSet
 URITokenBurn

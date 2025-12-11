@@ -1,0 +1,62 @@
+---
+title: Cron
+description: >-
+  The Cron pseudo-transaction is automatically inserted by the Cron engine when
+  a scheduled Hook execution is due.
+---
+\[[Source](https://github.com/Xahau/xahaud/blob/dev/src/ripple/app/tx/impl/Cron.cpp)]
+
+_(Added by the [Cron amendment][].)_
+
+The `Cron` pseudo-transaction is automatically inserted into the ledger by the Cron engine when a scheduled Hook execution is due. This pseudo-transaction triggers the execution of the Hook on the account specified in the `Owner` field.
+
+### Example
+
+```json
+{
+  "TransactionType": "Cron",
+  "Account": "rrrrrrrrrrrrrrrrrrrrrhoLvTp",
+  "Fee": "0",
+  "LedgerSequence": 21225473,
+  "Sequence": 0,
+  "SigningPubKey": "",
+  "TxnSignature": "",
+  "Owner": "rWYkbWkCeg8dP6rXALnjgZSjjLyih5NXm"
+}
+```
+
+### Fields
+
+| Field | JSON Type | \[Internal Type]\[] | Description |
+| ----- | --------- | ------------------- | ----------- |
+| `Owner` | String | AccountID | The account that owns the scheduled Hook execution. This is the account that will be invoked when the cron executes. |
+| `LedgerSequence` | Number    | UInt32              | The \[ledger index]\[] where this pseudo-transaction appears. This distinguishes the pseudo-transaction from other occurrences of the same change. |
+
+
+### Common Fields
+
+As a pseudo-transaction, `Cron` uses the standard pseudo-transaction values for common fields:
+
+| Field | Value |
+| ----- | ----- |
+| `Account` | `rrrrrrrrrrrrrrrrrrrrrhoLvTp` (`ACCOUNT_ZERO`) |
+| `Fee` | `0` |
+| `Sequence` | `0` |
+| `SigningPubKey` | `""` (empty string) |
+| `TxnSignature` | `""` (empty string) |
+
+### Execution Behavior
+
+When a [Cron ledger object](/docs/protocol-reference/ledger-data/ledger-objects-types/cron) is ready to execute (based on its `StartTime`, `DelaySeconds`, and `RepeatCount` fields), the Cron engine automatically inserts a `Cron` pseudo-transaction into the ledger.
+
+The pseudo-transaction contains an `Owner` field that references the account with the scheduled Hook. The Hook on that account will be invoked automatically, and the account is treated as a **weak transactional stakeholder (TSH)** during execution.
+
+**Important:** Hook developers must enable collect calls (`hsfCOLLECT` flag) on their Hooks, as the `Owner` constitutes a weak transactional stakeholder when the Cron pseudo-transaction executes. The account must also have the `asfTshCollect` flag enabled.
+
+### Related Documentation
+
+* [CronSet transaction](/docs/protocol-reference/transactions/transaction-types/cronset): Creates, updates, or deletes scheduled Hook executions
+* [Cron ledger object](/docs/protocol-reference/ledger-data/ledger-objects-types/cron): The ledger object that represents a scheduled Hook execution
+* [Weak and Strong](/docs/hooks/concepts/weak-and-strong): Understanding transactional stakeholders
+* [Collect Call Hooks](/docs/hooks/concepts/collect-call): How weak TSH Hooks are executed
+
