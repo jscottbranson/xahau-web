@@ -110,7 +110,7 @@ Maintaining different build environments (Python3 venvs, Conan2  profiles, etc.)
 The following subsections address the basics of configuring amnesiac and container based build environments.
 
 ### Containers
-It is possible to use [Docker](https://docker.com) or other containerized environments to contain the build process, thereby keeping the underlying system clean. Using containers has the additional advantage of easily testing builds in multiple environments. For example, containers based on RHEL, Debian, and other distributions can be configured to use diverse compiler versions. Further, features like Multistage Dockerfiles enable users to build then deploy (run) xahaud using a single Dockerfile. Users can also take advantage of Docker's `buildx` plugin, which allows users to build for multiple platforms concurrently.
+It is possible to use [Docker](https://docker.com) or other containerized environments (Podman, Kubernetes, etc.) to contain the build process, thereby keeping the underlying system clean. Using containers has the additional advantage of easily testing builds in multiple environments. For example, containers based on RHEL, Debian, and other distributions can be configured to use diverse compiler versions. Further, features like Multistage Dockerfiles enable users to build then deploy (run) xahaud using a single Dockerfile. Users can also take advantage of Docker's `buildx` plugin, which allows users to build for multiple platforms concurrently.
 
 #### Install Docker
 ```
@@ -303,9 +303,9 @@ To run the multistage build file and create a new Docker image with xahaud and t
 
 The resultant image can be viewed with: `docker images` and run with:
 
-`docker run --rm -d --name xahaud -p 5009:5009 -p 6009:6009 -p 21337:21337 -v xahau-data:/var/lib/xahaud xahaud:latest`
+`docker run --rm -d --name xahaud -p 5009:5009 -p 6009:6009 -p 21337:21337 -v /home/$USER/xahaud/opt:/opt/xahaud -v /home/$USER/xahaud/log:/var/log/xahaud xahaud:latest`
 
-In the above command, you can adjust the `-d` flag to toggle running in detached mode, the `-p xxxx:xxxx` flags which define the port mappings, the `--name xahaud` flag to change the container's name, and the `-v xahau-data:/var/lib/xahaud` flag to change where persistent data is stored on the underlying operating system. If running in detached mode, logs can be viewed with `docker logs -f xahaud`.
+In the above command, you can adjust the `-d` flag to toggle running in detached mode, the `-p xxxx:xxxx` flags which define the port mappings, the `--name xahaud` flag to change the container's name, and the `-v /path/on/host:/path/in/container` flag to change where persistent data is stored on the underlying operating system. If running in detached mode, logs can be viewed with `docker logs -f xahaud`.
 
 ### Amnesiac Operating Systems
 
@@ -326,7 +326,8 @@ update-initramfs -u
 reboot
 
 # After rebooting, it is possible to remount the overlay filesystem with more memory, as only 50% of available memory is dedicated to the overlayfs by default.
-When resizing memory, ensure some memory remains available for system use. The following will remount with the overlayfs set to use 30G of memory, adjust as needed.
+# When resizing memory, ensure some memory remains available for system use. The following will remount with the overlayfs set to use 30G of memory, adjust as needed.
+# It is also possible to use a systemd file to enable persistent changes to the overlayfs size.
 sudo mount -o remount,size=30G /media/root-rw
 ```
 
