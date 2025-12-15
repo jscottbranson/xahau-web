@@ -149,7 +149,7 @@ fi
 
 ### RUN COMMANDS AS 'xahaud' WITHOUT SPECIFYING FULL PATHS ###
 echo "Creating xahaud wrapper."
-sudo cat /usr/local/bin/xahaud <<EOF
+sudo cat > /usr/local/bin/xahaud <<EOF
 #!/usr/bin/env bash
 set -euo pipefail
 
