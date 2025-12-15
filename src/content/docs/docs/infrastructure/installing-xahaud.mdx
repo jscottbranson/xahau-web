@@ -153,7 +153,7 @@ sudo cat > /usr/local/bin/xahaud <<EOF
 #!/usr/bin/env bash
 set -euo pipefail
 
-exec ${XAHAUD_DIR}xahaud --conf=${CONF_DIR}xahaud.cfg "$@"
+exec ${XAHAUD_DIR}xahaud --conf=${CONF_DIR}xahaud.cfg "\$@"
 EOF
 sudo chmod 0755 /usr/local/bin/xahaud
 
