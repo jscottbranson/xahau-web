@@ -13,7 +13,7 @@ The most common techniques for installing xahaud are either locally using system
 The install documentation on this page expands on the install documentation in the [xahaud GitHub repository](https://github.com/xahau/xahaud/blob/dev/docs/build/install.md).
 </Aside>
 
-## Linux Install Summary
+## Linux Install Process
 Regardless of how xahaud is installed (Docker or system-wide), the overall process is similar across Linux systems.
 The following sections, [Docker Container](#docker-container-install-script) and [Local Install](#local-install-script), take advantage of bash scripts, which automate the following steps:
 
@@ -123,7 +123,7 @@ fi
 ### CHANGE OWNERSHIP AND PERMISSIONS ###
 echo "Checking ownership and permissions."
 chown -R ${XAHAUD_USER}:${XAHAUD_USER} ${XAHAUD_DIR} ${CONF_DIR} ${DB_DIR} ${LOG_DIR}
-chmod -R 750 ${XAHAUD_DIR} ${CONF_DIR} ${DB_DIR} ${LOG_DIR}
+chmod -R 0750 ${XAHAUD_DIR} ${CONF_DIR} ${DB_DIR} ${LOG_DIR}
 
 ### Install systemd SERVICE FILE ###
 if [[ ! -f "/etc/systemd/system/xahaud.service" ]]; then
@@ -148,6 +148,7 @@ EOF
 fi
 
 ### RUN COMMANDS AS 'xahaud' WITHOUT SPECIFYING FULL PATHS ###
+if [[ ! -f "/usr/local/bin/xahaud" ]]; then
 echo "Creating xahaud wrapper."
 sudo cat > /usr/local/bin/xahaud <<EOF
 #!/usr/bin/env bash
@@ -155,8 +156,11 @@ set -euo pipefail
 
 exec ${XAHAUD_DIR}xahaud --conf=${CONF_DIR}xahaud.cfg "\$@"
 EOF
+fi
+
 sudo chmod 0755 /usr/local/bin/xahaud
 
+### ENABLE AND START xahaud ###
 sudo systemctl daemon-reload
 sudo systemctl stop xahaud
 sudo systemctl enable --now xahaud
