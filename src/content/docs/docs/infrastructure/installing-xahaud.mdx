@@ -111,7 +111,7 @@ if [[ ! -f "${CONF_DIR}validators-xahau.txt" ]]; then
 	curl -fsSL ${VAL_URL} -o ${CONF_DIR}validators-xahau.txt
 fi
 
-### DOWNLOAD XAHAUD ###
+### DOWNLOAD xahaud ###
 if [[ ! -f "${XAHAUD_DIR}xahaud" ]]; then
 	curl -fsSL ${BINARY_URL} -o ${XAHAUD_DIR}xahaud
 elif [[ -f "${XAHAUD_DIR}xahaud" ]]; then
