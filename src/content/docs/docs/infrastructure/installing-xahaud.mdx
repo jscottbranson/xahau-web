@@ -95,7 +95,7 @@ sudo mkdir -p ${XAHAUD_DIR} ${CONF_DIR} ${DB_DIR} ${LOG_DIR}
 ### CREATE xahaud GROUP AND USER ###
 echo "Checking for user and group."
 if ! getent group ${XAHAUD_USER} > /dev/null; then
-	groupadd --system ${XAHAUD_USER}
+	sudo groupadd --system ${XAHAUD_USER}
 fi
 
 if ! getent passwd ${XAHAUD_USER} > /dev/null; then
@@ -122,8 +122,8 @@ fi
 
 ### CHANGE OWNERSHIP AND PERMISSIONS ###
 echo "Checking ownership and permissions."
-chown -R ${XAHAUD_USER}:${XAHAUD_USER} ${XAHAUD_DIR} ${CONF_DIR} ${DB_DIR} ${LOG_DIR}
-chmod -R 0750 ${XAHAUD_DIR} ${CONF_DIR} ${DB_DIR} ${LOG_DIR}
+sudo chown -R ${XAHAUD_USER}:${XAHAUD_USER} ${XAHAUD_DIR} ${CONF_DIR} ${DB_DIR} ${LOG_DIR}
+sudo chmod -R 0750 ${XAHAUD_DIR} ${CONF_DIR} ${DB_DIR} ${LOG_DIR}
 
 ### Install systemd SERVICE FILE ###
 if [[ ! -f "/etc/systemd/system/xahaud.service" ]]; then
